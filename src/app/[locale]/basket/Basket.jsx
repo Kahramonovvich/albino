@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import HomeIcon from '@/iconshome.svg'
+import HomeIcon from '@icons/home.svg'
 import TopArrowICon from '@icons/topArrow.svg'
 import { formatCurrency } from "@/utils/utils"
 import AddIcon from '@mui/icons-material/Add'
