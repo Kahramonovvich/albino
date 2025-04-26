@@ -17,7 +17,7 @@ export default async function page({ params }) {
     });
 
     const text = await resProducts.text();
-    let products;
+    let products = [];
 
     try {
         products = JSON.parse(text);

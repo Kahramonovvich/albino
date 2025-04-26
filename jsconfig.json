@@ -1,16 +1,16 @@
 {
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@/*": [
-        "src/*"
-      ],
-      "@icons/*": [
-        "src/assets/icons/*"
-      ]
-    }
-  },
-  "include": [
-    "src"
-  ]
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@/*": [
+                "src/*"
+            ],
+            "@icons/*": [
+                "src/assets/icons/*"
+            ]
+        }
+    },
+    "include": [
+        "src"
+    ]
 }
