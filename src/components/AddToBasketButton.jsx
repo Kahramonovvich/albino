@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
-import Bag from '@icons/bag.svg'
+import Bag from '@icons/bag copy.svg'
 import { useBasket } from '@/context/basket-context'
 
 export default function AddToBasketButton({ id, qty = 1, products }) {
