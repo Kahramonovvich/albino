@@ -12,18 +12,23 @@ const BASE_URL = process.env.API_BASE_URL;
 export default async function Products({ params, searchParams }) {
 
     const category = await params?.category?.replace(/-/gi, ' ');
-
     const locale = await params?.locale;
     const langMap = { uz: 1, ru: 2 };
     const languageId = langMap[locale] || 1;
     const resProducts = await fetch(`${BASE_URL}/api/Products/GetAllProducts?languageId=${languageId}`, {
         next: { tags: ['products'] }
     });
-    const allProducts = await resProducts.json();
+
+    const text = await resProducts.text();
+    let allProducts;
+
+    try {
+        allProducts = JSON.parse(text);
+    } catch (e) {
+        console.error('Ошибка парсинга JSON:', text);
+        allProducts = [];
+    };
     const productsWithSlug = await productsSlug(allProducts);
-
-    console.log(languageId);
-
 
     let categoryProducts = [];
 
@@ -226,10 +231,6 @@ export default async function Products({ params, searchParams }) {
                                             <p className='text-[#484848] leading-[23px]'>
                                                 {product.rating}
                                             </p>
-                                            <RatingIcon
-                                                value={product.rating}
-                                                className='!text-sm !text-orange'
-                                            />
                                         </div>
                                         <div className="priceBox md:flex items-center justify-between">
                                             <p className='font-bold md:text-lg md:leading-[23px] mb-3 md:mb-0'>
