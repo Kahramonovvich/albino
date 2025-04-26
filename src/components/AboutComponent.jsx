@@ -1,13 +1,13 @@
 'use client'
 import Image from "next/image"
-import CheckIcon from '@icons/check 1.svg'
 
 export default function AboutComponent() {
     return (
         <div className="aboutComponent mt-[50px]">
             <div className="container">
-                <div className="box flex gap-x-14 items-center">
-                    <div className="img relative w-[590px] h-[590px]">
+                <div className="box flex flex-col md:flex-row gap-y-8 md:gap-y-0 md:gap-x-14 items-center">
+
+                    <div className="img relative w-full h-[300px] md:w-[590px] md:h-[590px]">
                         <Image
                             fill
                             alt="about"
@@ -15,42 +15,20 @@ export default function AboutComponent() {
                             style={{ objectFit: 'contain' }}
                         />
                     </div>
-                    <div className="text flex-1 flex flex-col gap-y-[26px]">
-                        <h2 className="font-semibold text-[40px] leading-tight">
-                            100% Trusted
-                            <br />
-                            Organic Food Store
-                        </h2>
+
+                    <div className="text flex-1 flex flex-col gap-y-6 md:gap-y-[26px] text-sm md:text-lg px-2 md:px-0">
                         <div className="box">
-                            <div className="flex gap-x-3">
-                                <div className="box flex items-center justify-center w-6 h-6 bg-customRed rounded-full">
-                                    <CheckIcon />
-                                </div>
-                                <div className="box flex-1">
-                                    <p className="font-medium text-lg leading-normal">Healthy & natural food for lovers of healthy food.</p>
-                                    <p className="text-sm leading-normal text-[#808080] mt-2.5">
-                                        Ut quis tempus erat. Phasellus euismod bibendum magna non tristique. Pellentesque semper vestibulum elit sed condimentum. Nunc pretium fermentum interdum.
-                                    </p>
-                                </div>
-                            </div>
+                            <h3 className="leading-relaxed">
+                                Albino kompaniyasi 2009-yildan buyon xorijning Vicalina, Torix, Sonifer va shu kabi 100ga yaqin brendlarning 1300 dan ortiq mahsulotlarni, yani oshxona anjomlari, chinni idishlar va elektr jixozlarini O'zbekiston bo'ylab yetkazib bermoqda.
+                                Ayniqsa hozirgi kunda Germaniya sifati bilan ko'pgina davlatlarga tanilgan Vicalina brendining O'zbekistondagi yagona va katta dilerimiz. Vicalina asosan idish-tovoq (nerjaveyka va granit qoplamli idishlar), oshxona anjomlari va boshqa shunga o'xshash mahsulotlar bilan shug'ullanadi. Brend mahsulotlari orasida qozonlar, elektr bo'lmagan choynaklar, pishirish to'plamlari mavjud. Vicalina o'zining sifati va dizayni bilan mashhur.
+                                Albino kompaniyasi O'zbekiston, Xitoy, Rossiya, Eron kabi davlatlardan olingan mahsulotlarni O'zbekiston bo'ylab istalgan tovarni istagan hajmda ta'minlab bera oladi.
+                            </h3>
                         </div>
-                        <div className="box">
-                            <div className="flex gap-x-3">
-                                <div className="box flex items-center justify-center w-6 h-6 bg-customRed rounded-full">
-                                    <CheckIcon />
-                                </div>
-                                <div className="box flex-1">
-                                    <p className="font-medium text-lg leading-normal">Healthy & natural food for lovers of healthy food.</p>
-                                    <p className="text-sm leading-normal text-[#808080] mt-2.5">
-                                        Ut quis tempus erat. Phasellus euismod bibendum magna non tristique. Pellentesque semper vestibulum elit sed condimentum. Nunc pretium fermentum interdum.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <button className="px-10 py-4 bg-customRed rounded-full w-max text-white font-semibold">
+                        <button className="px-8 md:px-10 py-3 md:py-4 bg-customRed rounded-full w-max text-white font-semibold">
                             Bog’lanish
                         </button>
                     </div>
+
                 </div>
             </div>
         </div>

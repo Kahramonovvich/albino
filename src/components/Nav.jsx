@@ -1,28 +1,28 @@
 'use client'
 import Image from "next/image";
-import SearchIcon from '@/assets/icons/Search.svg'
+import SearchIcon from '@/assets/icons/Search.svg';
 import Link from "next/link";
-import HeartIcon from '@/assets/icons/Heart.svg'
-import BagIcon from '@/assets/icons/Bag.svg'
-import BurgerIcon from '@/assets/icons/burger.svg'
-import ArrowIcon from '@/assets/icons/Chevron Down.svg'
-import PhoneIcon from '@/assets/icons/PhoneCall.svg'
+import HeartIcon from '@/assets/icons/Heart.svg';
+import BagIcon from '@/assets/icons/Bag.svg';
+import ArrowIcon from '@/assets/icons/Chevron Down.svg';
+import PhoneIcon from '@/assets/icons/PhoneCall.svg';
 import { navMenu } from "@/constants/constants";
 import { useState } from "react";
+import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 
 export default function Nav() {
-
     const [open, setOpen] = useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false);
 
     return (
         <nav>
-            <div className="navTop py-6">
+            {/* Top nav */}
+            <div className="navTop py-4 border-b">
                 <div className="container">
                     <div className="flex items-center justify-between">
-                        <Link
-                            href={'/'}
-                            className="logo">
-                            <div className="img relative w-[140px] h-9">
+                        {/* Logo */}
+                        <Link href={'/'} className="flex flex-col items-center">
+                            <div className="relative w-[120px] h-8">
                                 <Image
                                     fill
                                     src={'/images/logo.png'}
@@ -30,12 +30,12 @@ export default function Nav() {
                                     style={{ objectFit: 'contain' }}
                                 />
                             </div>
-                            <p className="font-medium text-[9px]">
-                                Eng sifatli, eng hamyonbob
-                            </p>
+                            <p className="font-medium text-[8px]">Siz kutgandan ko'proq</p>
                         </Link>
-                        <div className="form w-[500px] flex relative">
-                            <div className="box absolute top-1/2 -translate-y-1/2 left-4">
+
+                        {/* Desktop search */}
+                        <div className="hidden md:flex form w-[400px] relative">
+                            <div className="absolute top-1/2 left-4 -translate-y-1/2">
                                 <SearchIcon />
                             </div>
                             <input
@@ -45,102 +45,60 @@ export default function Nav() {
                                 placeholder="Search"
                                 className="border outline-none rounded-l-md flex-1 px-10 pr-5"
                             />
-                            <button className="bg-customRed px-6 py-3.5 text-white rounded-r-md">Search</button>
+                            <button className="bg-customRed px-5 py-3 text-white rounded-r-md">Search</button>
                         </div>
-                        <div className="left flex items-center">
-                            <Link
-                                href={'/#'}
-                            >
-                                <HeartIcon />
-                            </Link>
-                            <div className="box w-px h-6 bg-gray-300 mx-4"></div>
-                            <Link
-                                href={'/#'}
-                            >
-                                <BagIcon />
-                            </Link>
-                            <div className="box ml-3">
-                                <p className="text-[11px]">Shopping cart:</p>
-                                <p className="font-medium">$57.00</p>
-                            </div>
+
+                        {/* Icons */}
+                        <div className="flex items-center gap-4">
+                            <Link href={'/#'}><HeartIcon /></Link>
+                            <Link href={'/#'}><BagIcon /></Link>
+
+                            {/* Mobile burger */}
+                            <button className="md:hidden" onClick={() => setMobileOpen(!mobileOpen)}>
+                                <MenuRoundedIcon />
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="navBottom bg-[#F2F2F2]">
+
+            {/* Bottom nav */}
+            <div className="navBottom bg-[#F2F2F2] hidden md:block">
                 <div className="container">
-                    <div className="box flex items-center justify-between relative">
-                        <div className="left flex items-center gap-x-8">
+                    <div className="flex items-center justify-between relative">
+                        <div className="flex items-center gap-x-8">
                             <button
                                 onClick={() => setOpen(!open)}
                                 className="flex items-center gap-x-2 text-white bg-customRed py-4 px-6"
                             >
-                                <BurgerIcon />
+                                <MenuRoundedIcon />
                                 All Categories
                                 <ArrowIcon />
                             </button>
-                            <Link
-                                href={'/'}
-                                className="flex items-center gap-x-1 text-customRed"
-                            >
-                                Home
-                                <ArrowIcon />
-                            </Link>
-                            <Link
-                                href={'/catalog/barcha-mahsulotlar'}
-                                className="flex items-center gap-x-1 text-[#808080]"
-                            >
-                                Shop
-                                <ArrowIcon />
-                            </Link>
-                            <Link
-                                href={'/#'}
-                                className="flex items-center gap-x-1 text-[#808080]"
-                            >
-                                Pages
-                                <ArrowIcon />
-                            </Link>
-                            <Link
-                                href={'/#'}
-                                className="flex items-center gap-x-1 text-[#808080]"
-                            >
-                                Blog
-                                <ArrowIcon />
-                            </Link>
-                            <Link
-                                href={'/#'}
-                                className="flex items-center gap-x-1 text-[#808080]"
-                            >
-                                About Us
-                            </Link>
-                            <Link
-                                href={'/#'}
-                                className="flex items-center gap-x-1 text-[#808080]"
-                            >
-                                Contact Us
-                            </Link>
+                            <Link href={'/'} className="flex items-center gap-x-1 text-customRed">Home <ArrowIcon /></Link>
+                            <Link href={'/catalog/barcha-mahsulotlar'} className="flex items-center gap-x-1 text-gray-500">Shop <ArrowIcon /></Link>
+                            <Link href={'/#'} className="flex items-center gap-x-1 text-gray-500">Pages <ArrowIcon /></Link>
+                            <Link href={'/#'} className="flex items-center gap-x-1 text-gray-500">Blog <ArrowIcon /></Link>
+                            <Link href={'/#'} className="flex items-center gap-x-1 text-gray-500">About Us</Link>
+                            <Link href={'/#'} className="flex items-center gap-x-1 text-gray-500">Contact Us</Link>
                         </div>
-                        <div className="right flex items-center gap-x-2">
+                        <div className="flex items-center gap-2">
                             <PhoneIcon />
-                            <a href="tel:+998995550114" className="font-medium">(99) 555-01-14</a>
+                            <a href="tel:+998555000098" className="font-medium">(55) 500-00-98</a>
                         </div>
+
                         {open && (
-                            <div className="box bg-white absolute z-40 top-full border p-3 mt-5 rounded-md flex items-center gap-5 justify-between flex-wrap">
+                            <div className="absolute top-full mt-3 left-0 w-full bg-white rounded-md shadow-md p-4 flex flex-wrap gap-4 z-50">
                                 {navMenu.map((menu) => (
                                     <Link
-                                        href={menu.slug}
                                         key={menu.id}
-                                        className="box flex items-center gap-x-3 border px-2 py-1 rounded-md hover:bg-slate-300"
+                                        href={menu.slug}
+                                        className="flex items-center gap-x-2 border p-2 rounded hover:bg-gray-100 w-[calc(33%-1rem)]"
                                     >
-                                        <div className="img relative w-10 h-10">
-                                            <Image
-                                                fill
-                                                src={menu.img}
-                                                style={{ objectFit: 'contain' }}
-                                                alt={menu.name}
-                                            />
+                                        <div className="relative w-10 h-10">
+                                            <Image fill src={menu.img} alt={menu.name} style={{ objectFit: 'contain' }} />
                                         </div>
-                                        {menu.name}
+                                        <span>{menu.name}</span>
                                     </Link>
                                 ))}
                             </div>
@@ -148,6 +106,24 @@ export default function Nav() {
                     </div>
                 </div>
             </div>
+
+            {/* Mobile menu */}
+            {mobileOpen && (
+                <div className="md:hidden bg-white absolute w-full left-0 top-[70px] shadow-md z-40">
+                    <div className="flex flex-col gap-4 p-4">
+                        <Link href={'/'} onClick={() => setMobileOpen(false)} className="text-customRed">Home</Link>
+                        <Link href={'/catalog/barcha-mahsulotlar'} onClick={() => setMobileOpen(false)}>Shop</Link>
+                        <Link href={'/#'} onClick={() => setMobileOpen(false)}>Pages</Link>
+                        <Link href={'/#'} onClick={() => setMobileOpen(false)}>Blog</Link>
+                        <Link href={'/#'} onClick={() => setMobileOpen(false)}>About Us</Link>
+                        <Link href={'/#'} onClick={() => setMobileOpen(false)}>Contact Us</Link>
+                        <div className="flex items-center gap-2 mt-4">
+                            <PhoneIcon />
+                            <a href="tel:+998555000098" className="font-medium">(55) 500-00-98</a>
+                        </div>
+                    </div>
+                </div>
+            )}
         </nav>
     );
-};
+}

@@ -57,7 +57,7 @@ export default function TopProducts() {
                     <h2 className="font-semibold text-4xl mb-[50px]">
                         <span className="capitalize">{activeProductBrand}</span> mahsulotlari
                     </h2>
-                    <div className="grid grid-cols-4 gap-[50px]">
+                    <div className="grid md:grid-cols-4 grid-cols-2 gap-3 md:gap-[50px]">
                         {selectedProducts?.slice(0, 8).map((item) => (
                             <div
                                 key={item.id}

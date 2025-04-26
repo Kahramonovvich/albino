@@ -6,7 +6,7 @@ import { Rating } from "@mui/material";
 
 const address = [
     {
-        name: 'Namangan',
+        name: 'Toshkent',
         icon1: <Vector />,
         icon2: <ShareIcon />,
         address: 'Namangan vil, Kosonsoy 34-A uy'
@@ -19,6 +19,12 @@ const address = [
     },
     {
         name: 'Farg’ona',
+        icon1: <Vector />,
+        icon2: <ShareIcon />,
+        address: 'Namangan vil, Kosonsoy 34-A uy'
+    },
+    {
+        name: 'Samarqand',
         icon1: <Vector />,
         icon2: <ShareIcon />,
         address: 'Namangan vil, Kosonsoy 34-A uy'

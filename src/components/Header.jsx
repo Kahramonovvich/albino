@@ -3,31 +3,19 @@ import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import Link from 'next/link';
-import ArrowLeft from '@/assets/icons/arrowLeft.svg'
+import ArrowLeft from '@/assets/icons/arrowLeft.svg';
 import { Autoplay } from "swiper/modules";
 import 'swiper/css/autoplay';
-import CarIcon from '@/assets/icons/delivery-truck 1.svg'
-import HeadphoneIcon from '@icons/headphones 1.svg'
-import ShoppingBag from '@icons/shopping-bag.svg'
-import PackageIcon from '@icons/package.svg'
+import CarIcon from '@/assets/icons/delivery-truck 1.svg';
+import HeadphoneIcon from '@icons/headphones 1.svg';
+import ShoppingBag from '@icons/shopping-bag.svg';
+import PackageIcon from '@icons/package.svg';
 
 const carusel = [
     {
         id: 1,
-        title: 'Eng sifatli mahsulotlar',
-        subTitle: 'Xarid qilishga shoshiling',
-        img: '/images/carusel.png'
-    },
-    {
-        id: 2,
-        title: 'Eng sifatli mahsulotlar',
-        subTitle: 'Xarid qilishga shoshiling',
-        img: '/images/carusel.png'
-    },
-    {
-        id: 3,
-        title: 'Eng sifatli mahsulotlar',
-        subTitle: 'Xarid qilishga shoshiling',
+        title: 'Uy va oshxonangiz uchun kerakli barcha mahsulotlar',
+        subTitle: 'Yuqori sifat, hamyonbop narx',
         img: '/images/carusel.png'
     },
 ];
@@ -40,7 +28,7 @@ const ad = [
     },
     {
         icon: <HeadphoneIcon />,
-        title: 'Customer Support 24/7',
+        title: 'Customer Support',
         subTitle: 'Instant access to Support'
     },
     {
@@ -68,51 +56,53 @@ export default function Header() {
                             pauseOnMouseEnter: true
                         }}
                         modules={[Autoplay]}
-                        className='w-full h-[800px]'
+                        className="w-full h-[300px] md:h-[800px]"
                     >
                         {carusel.map((item) => (
-                            <SwiperSlide
-                                key={item.id}
-                            >
+                            <SwiperSlide key={item.id}>
                                 <Image
                                     fill
                                     alt={item.title}
                                     src={item.img}
+                                    className="object-cover"
                                 />
                                 <div className="box flex items-center justify-center w-full">
-                                    <div className="absolute top-48 z-30 w-[450px] text-center">
-                                        <h1
-                                            className='font-semibold text-7xl leading-tight mb-[30px]'
-                                        >
+                                    <div className="absolute top-20 md:top-48 z-30 w-10/12 text-center">
+                                        <h1 className="font-semibold text-2xl md:text-7xl leading-tight mb-4 md:mb-[30px]">
                                             {item.title}
                                         </h1>
-                                        <h2 className='text-[32px] leading-tight mb-3'>
+                                        <h2 className="text-lg md:text-[32px] leading-tight mb-3">
                                             {item.subTitle}
                                         </h2>
-                                        <p>Tekin yetkazib berish xizmatidan foydalaning</p>
-                                        <Link
-                                            href={'/catalog/barcha-mahsulotlar'}
-                                            className='bg-customRed px-2 py-4 text-white rounded-full inline-flex items-center gap-x-2 mt-[30px]'
-                                        >
-                                            Buyurtma qilish
-                                            <ArrowLeft />
-                                        </Link>
                                     </div>
                                 </div>
                             </SwiperSlide>
                         ))}
                     </Swiper>
                 </div>
-                <div className="bottom -mt-[64px] h-32 mx-[52px] relative">
-                    <div className="box absolute z-40 w-full rounded-lg h-full px-10 shadow-md bg-white flex items-center justify-between">
+
+                <div className="bottom mt-5 md:-mt-[64px] mx-5 md:mx-[52px] relative h-auto md:h-32">
+                    {/* DESKTOP version */}
+                    <div className="hidden md:flex absolute z-40 w-full rounded-lg px-10 shadow-md bg-white h-full items-center justify-between">
                         {ad.map((item) => (
-                            <div className="box flex items-center gap-x-4" key={item.title}>
-                                <div className="img">
-                                    {item.icon}
-                                </div>
+                            <div className="flex items-center gap-x-4" key={item.title}>
+                                <div className="img">{item.icon}</div>
                                 <div className="text">
                                     <p className='font-semibold leading-tight mb-2'>{item.title}</p>
                                     <p className='text-sm leading-normal text-[#999999]'>{item.subTitle}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* MOBILE version */}
+                    <div className="flex md:hidden z-40 w-full rounded-lg px-4 py-6 shadow-md bg-white flex-col gap-6">
+                        {ad.map((item) => (
+                            <div className="flex items-center gap-x-3" key={item.title}>
+                                <div className="img">{item.icon}</div>
+                                <div className="text">
+                                    <p className='font-semibold text-base mb-1'>{item.title}</p>
+                                    <p className='text-sm text-gray-500'>{item.subTitle}</p>
                                 </div>
                             </div>
                         ))}
@@ -121,4 +111,4 @@ export default function Header() {
             </div>
         </div>
     );
-};
+}

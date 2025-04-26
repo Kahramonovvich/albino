@@ -1,5 +1,4 @@
 import AboutComponent from "@/components/AboutComponent";
-import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Map from "@/components/Map";
 import Partners from "@/components/Partners";
@@ -15,7 +14,6 @@ export default function page() {
       <TopProducts />
       <StaticCommentsComponent />
       <Map />
-      <Footer />
     </div>
   );
 };
