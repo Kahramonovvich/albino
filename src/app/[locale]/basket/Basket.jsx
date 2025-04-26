@@ -2,12 +2,12 @@
 import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import HomeIcon from '@/icons/home.svg'
-import TopArrowICon from '@/icons/topArrow.svg'
+import HomeIcon from '@/iconshome.svg'
+import TopArrowICon from '@icons/topArrow.svg'
 import { formatCurrency } from "@/utils/utils"
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
-import CloseIcon from '@/icons/Close.svg'
+import CloseIcon from '@icons/Close.svg'
 import { useBasket } from "@/context/basket-context"
 import MultiOrderModal from "@/components/MultiOrderModal"
 

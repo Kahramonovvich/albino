@@ -1,8 +1,8 @@
 'use client'
 import { useEffect, useState } from 'react'
 import Link from "next/link"
-import HomeIcon from '@/icons/home.svg'
-import TopArrowICon from '@/icons/topArrow.svg'
+import HomeIcon from '@icons/home.svg'
+import TopArrowICon from '@icons/topArrow.svg'
 import { productsSlug } from "@/utils/utils"
 import FavoriteProductItem from '@/components/FavoriteProductItem'
 import { usePathname } from 'next/navigation'
