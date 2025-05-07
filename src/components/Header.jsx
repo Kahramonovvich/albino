@@ -2,8 +2,6 @@
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import Link from 'next/link';
-import ArrowLeft from '@/assets/icons/arrowLeft.svg';
 import { Autoplay } from "swiper/modules";
 import 'swiper/css/autoplay';
 import CarIcon from '@/assets/icons/delivery-truck 1.svg';
@@ -11,39 +9,76 @@ import HeadphoneIcon from '@icons/headphones 1.svg';
 import ShoppingBag from '@icons/shopping-bag.svg';
 import PackageIcon from '@icons/package.svg';
 
-const carusel = [
-    {
-        id: 1,
-        title: 'Uy va oshxonangiz uchun kerakli barcha mahsulotlar',
-        subTitle: 'Yuqori sifat, hamyonbop narx',
-        img: '/images/carusel.png'
-    },
-];
+const caruselData = {
+    uz: [
+        {
+            id: 1,
+            title: 'Uy va oshxonangiz uchun kerakli barcha mahsulotlar',
+            subTitle: 'Yuqori sifat, hamyonbop narx',
+            img: '/images/carusel.png'
+        }
+    ],
+    ru: [
+        {
+            id: 1,
+            title: 'Все необходимые товары для вашего дома и кухни',
+            subTitle: 'Высокое качество, доступная цена',
+            img: '/images/carusel.png'
+        }
+    ]
+};
 
-const ad = [
-    {
-        icon: <CarIcon />,
-        title: 'Free Shipping',
-        subTitle: 'Free shipping on all your order'
-    },
-    {
-        icon: <HeadphoneIcon />,
-        title: 'Customer Support',
-        subTitle: 'Instant access to Support'
-    },
-    {
-        icon: <ShoppingBag />,
-        title: '100% Secure Payment',
-        subTitle: 'We ensure your money is save'
-    },
-    {
-        icon: <PackageIcon />,
-        title: 'Money-Back Guarantee',
-        subTitle: '30 Days Money-Back Guarantee'
-    },
-];
+const adData = {
+    uz: [
+        {
+            icon: <CarIcon />,
+            title: 'Bepul yetkazib berish',
+            subTitle: 'Barcha buyurtmalaringiz uchun bepul yetkazib berish'
+        },
+        {
+            icon: <HeadphoneIcon />,
+            title: 'Mijozlarni qo‘llab-quvvatlash',
+            subTitle: 'Yordam xizmatiga tezkor kirish'
+        },
+        {
+            icon: <ShoppingBag />,
+            title: '100% xavfsiz to‘lov',
+            subTitle: 'Pul xavfsizligini ta’minlaymiz'
+        },
+        {
+            icon: <PackageIcon />,
+            title: 'Pulni qaytarish kafolati',
+            subTitle: '30 kun ichida pulni qaytarish imkoniyati'
+        },
+    ],
+    ru: [
+        {
+            icon: <CarIcon />,
+            title: 'Бесплатная доставка',
+            subTitle: 'Бесплатная доставка всех ваших заказов'
+        },
+        {
+            icon: <HeadphoneIcon />,
+            title: 'Поддержка клиентов',
+            subTitle: 'Мгновенный доступ к поддержке'
+        },
+        {
+            icon: <ShoppingBag />,
+            title: '100% безопасная оплата',
+            subTitle: 'Мы гарантируем безопасность ваших средств'
+        },
+        {
+            icon: <PackageIcon />,
+            title: 'Гарантия возврата денег',
+            subTitle: '30-дневная гарантия возврата денег'
+        },
+    ]
+};
 
-export default function Header() {
+export default function Header({ languageId }) {
+    const carusel = languageId === 2 ? caruselData.ru : caruselData.uz;
+    const ad = languageId === 2 ? adData.ru : adData.uz;
+
     return (
         <div className="header mt-5">
             <div className="container">
@@ -82,7 +117,7 @@ export default function Header() {
                 </div>
 
                 <div className="bottom mt-5 md:-mt-[64px] mx-5 md:mx-[52px] relative h-auto md:h-32">
-                    {/* DESKTOP version */}
+                    {/* DESKTOP */}
                     <div className="hidden md:flex absolute z-40 w-full rounded-lg px-10 shadow-md bg-white h-full items-center justify-between">
                         {ad.map((item) => (
                             <div className="flex items-center gap-x-4" key={item.title}>
@@ -95,7 +130,7 @@ export default function Header() {
                         ))}
                     </div>
 
-                    {/* MOBILE version */}
+                    {/* MOBILE */}
                     <div className="flex md:hidden z-40 w-full rounded-lg px-4 py-6 shadow-md bg-white flex-col gap-6">
                         {ad.map((item) => (
                             <div className="flex items-center gap-x-3" key={item.title}>
@@ -111,4 +146,4 @@ export default function Header() {
             </div>
         </div>
     );
-}
+};

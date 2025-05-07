@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 import Link from "next/link"
 import HomeIcon from '@icons/home.svg'
 import TopArrowICon from '@icons/topArrow.svg'
-import { productsSlug } from "@/utils/utils"
 import FavoriteProductItem from '@/components/FavoriteProductItem'
 import { usePathname } from 'next/navigation'
 
@@ -15,16 +14,24 @@ export default function Favorites() {
 
     const [favoriteProducts, setFavoriteProducts] = useState([]);
 
+    const t = {
+        title: languageId === 2 ? 'Избранные' : 'Saralangan',
+        product: languageId === 2 ? 'Товар' : 'Maxsulot',
+        price: languageId === 2 ? 'Цена' : 'Narx',
+        status: languageId === 2 ? 'Состояние' : 'Holati',
+        empty: languageId === 2 ? 'Нет избранных товаров' : 'Saralangan maxsulotlar yo‘q',
+    };
+
+    let products;
+
     useEffect(() => {
         const fetchData = async () => {
             const res = await fetch(`/api/Products/GetAllProducts?languageId=${languageId}`);
-            const products = await res.json();
-            const productsWithSlug = await productsSlug(products);
-
+            products = await res.json();
             const liked = localStorage.getItem('likedProducts');
             const likedIds = liked ? JSON.parse(liked) : [];
 
-            const filtered = productsWithSlug.filter(product => likedIds.includes(product.id));
+            const filtered = products.filter(product => likedIds.includes(product.id));
             setFavoriteProducts(filtered);
         };
 
@@ -39,18 +46,18 @@ export default function Favorites() {
                         <HomeIcon />
                     </Link>
                     <TopArrowICon />
-                    <p className='text-primary leading-normal'>
-                        Saralangan
+                    <p className='text-customRed leading-normal'>
+                        {t.title}
                     </p>
                 </div>
                 <h2 className="mb-5 font-semibold text-[32px] leading-tight">
-                    Saralangan
+                    {t.title}
                 </h2>
                 <div className="box py-4 border rounded-lg">
                     <div className="top grid grid-cols-12 pb-4 px-6 border-b uppercase font-medium text-sm leading-none text-[#808080]">
-                        <div className="box col-span-5">Maxsulot</div>
-                        <div className="box col-span-3">Narx</div>
-                        <div className="box col-span-4">Holati</div>
+                        <div className="box col-span-5">{t.product}</div>
+                        <div className="box col-span-3">{t.price}</div>
+                        <div className="box col-span-4">{t.status}</div>
                     </div>
                     <div className="bottom mt-3 flex flex-col">
                         {favoriteProducts.map(product => (
@@ -60,11 +67,12 @@ export default function Favorites() {
                                 onRemove={() => {
                                     setFavoriteProducts(prev => prev.filter(p => p.id !== product.id))
                                 }}
+                                products={products}
                             />
                         ))}
                         {favoriteProducts.length === 0 && (
                             <p className="text-center text-gray-500 py-6">
-                                Saralangan maxsulotlar yo‘q
+                                {t.empty}
                             </p>
                         )}
                     </div>

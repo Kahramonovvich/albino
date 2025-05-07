@@ -108,12 +108,11 @@ export default function ProductsComponent({ products, languageId, token }) {
                                     style={{ objectFit: 'contain' }}
                                 />
                             </div>
-                            <Link
-                                href={product.slug}
+                            <div
                                 className="name col-span-5 text-lg font-semibold truncate"
                             >
                                 {product.name}
-                            </Link>
+                            </div>
                             <div className="price col-span-2 text-lg font-semibold">
                                 {formatCurrency(product.discount ? product.newPrice : product.price)}
                             </div>

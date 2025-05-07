@@ -13,3 +13,24 @@
 .swiper-wrapper {
   transition-timing-function: linear !important;
 }
+
+.marquee {
+  animation: marquee 10s linear infinite;
+  will-change: transform;
+}
+
+.marquee-content {
+  display: flex;
+  flex-shrink: 0;
+  min-width: 100%;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}

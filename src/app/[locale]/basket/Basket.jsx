@@ -11,10 +11,41 @@ import CloseIcon from '@icons/Close.svg'
 import { useBasket } from "@/context/basket-context"
 import MultiOrderModal from "@/components/MultiOrderModal"
 
-export default function BasketClient({ products }) {
+const t = {
+    uz: {
+        title: "Savatchangiz",
+        product: "Maxsulot",
+        price: "Narx",
+        quantity: "Soni",
+        total: "Umumiy narx",
+        back: "Xaridlarga qaytish",
+        clear: "Yangilash",
+        totalLabel: "Jami:",
+        delivery: "Yetkazib berish:",
+        free: "Tekin",
+        grandTotal: "Umumiy narx:",
+        order: "Buyurtma qilish",
+    },
+    ru: {
+        title: "Корзина",
+        product: "Товар",
+        price: "Цена",
+        quantity: "Количество",
+        total: "Общая сумма",
+        back: "Вернуться к покупкам",
+        clear: "Очистить",
+        totalLabel: "Итого:",
+        delivery: "Доставка:",
+        free: "Бесплатно",
+        grandTotal: "Общая сумма:",
+        order: "Оформить заказ",
+    }
+};
 
+export default function BasketClient({ products, languageId }) {
+
+    const lang = languageId === 2 ? t.ru : t.uz;
     const { setBasket } = useBasket();
-
     const [items, setItems] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
 
@@ -23,23 +54,23 @@ export default function BasketClient({ products }) {
     }, [products]);
 
     const loadBasket = () => {
-        const basket = JSON.parse(localStorage.getItem('productsToBasket') || '[]')
+        const basket = JSON.parse(localStorage.getItem('productsToBasket') || '[]');
         const result = basket.map(basketItem => {
-            const product = products.find(p => p.id === basketItem.id)
-            const productPrice = product?.discount ? product.newPrice : product.price
+            const product = products.find(p => p.id === basketItem.id);
+            const productPrice = product?.discount ? product.newPrice : product.price;
             if (product) {
                 return {
                     ...product,
                     qty: basketItem.qty,
                     total: productPrice * basketItem.qty
-                }
+                };
             }
-            return null
-        }).filter(Boolean)
+            return null;
+        }).filter(Boolean);
 
         setItems(result);
         setBasket(result);
-    }
+    };
 
     const updateQty = (productId, delta) => {
         let basket = JSON.parse(localStorage.getItem('productsToBasket') || '[]');
@@ -50,7 +81,7 @@ export default function BasketClient({ products }) {
             localStorage.setItem('productsToBasket', JSON.stringify(basket));
             loadBasket();
         }
-    }
+    };
 
     const clearBasket = () => {
         localStorage.removeItem('productsToBasket');
@@ -76,23 +107,23 @@ export default function BasketClient({ products }) {
                         <HomeIcon />
                     </Link>
                     <TopArrowICon />
-                    <p className='text-primary leading-normal'>
-                        Savatchangiz
+                    <p className='text-customRed leading-normal'>
+                        {lang.title}
                     </p>
                 </div>
 
                 <h2 className="mb-5 font-semibold text-[32px] leading-tight">
-                    Savatchangiz
+                    {lang.title}
                 </h2>
 
                 <div className="box md:grid grid-cols-3 gap-x-6 flex flex-col gap-y-5">
                     <div className="left col-span-2 border rounded-lg py-4">
                         <div className="top hidden md:grid grid-cols-12 border-b px-5 pb-4 uppercase font-medium text-sm text-[#808080]">
-                            <div className="col-span-5">Maxsulot</div>
+                            <div className="col-span-5">{lang.product}</div>
                             <div className="col-span-7 grid grid-cols-3 gap-x-3">
-                                <p>Narx</p>
-                                <p>Soni</p>
-                                <p>Umumiy narx</p>
+                                <p>{lang.price}</p>
+                                <p>{lang.quantity}</p>
+                                <p>{lang.total}</p>
                             </div>
                         </div>
 
@@ -141,49 +172,49 @@ export default function BasketClient({ products }) {
 
                         <div className="bottom flex items-center justify-between gap-x-2 md:px-5 px-3 pt-4 border-t">
                             <Link
-                                href={`/catalog/barcha-mahsulotlar`}
+                                href={`/catalog/all-products`}
                                 className="py-3.5 md:px-8 px-4 font-semibold text-sm leading-tight text-[#4D4D4D] bg-[#F2F2F2] rounded"
                             >
-                                Xaridlarga qaytish
+                                {lang.back}
                             </Link>
                             <button
                                 onClick={clearBasket}
                                 className="py-3.5 md:px-8 px-4 font-semibold text-sm leading-tight text-[#4D4D4D] bg-[#F2F2F2] rounded"
                             >
-                                Yangilash
+                                {lang.clear}
                             </button>
                         </div>
                     </div>
                     <div className="right border rounded-lg p-6 h-max">
-                        <p className="font-medium text-xl leading-normal text-[#1A1A1A]">Jami:</p>
+                        <p className="font-medium text-xl leading-normal text-[#1A1A1A]">{lang.totalLabel}</p>
 
                         <div className="box flex items-center justify-between h-12">
-                            <p className="leading-normal text-[#4D4D4D]">Narx:</p>
+                            <p className="leading-normal text-[#4D4D4D]">{lang.price}</p>
                             <p className="text-sm font-medium leading-normal">
                                 {formatCurrency(totalPrice)}
                             </p>
                         </div>
                         <div className="box flex items-center justify-between h-12 border-y">
-                            <p className="leading-normal text-[#4D4D4D]">Yetkazib berish:</p>
+                            <p className="leading-normal text-[#4D4D4D]">{lang.delivery}</p>
                             <p className="text-sm font-medium leading-normal">
-                                {deliveryFee === 0 ? 'Tekin' : formatCurrency(deliveryFee)}
+                                {deliveryFee === 0 ? lang.free : formatCurrency(deliveryFee)}
                             </p>
                         </div>
                         <div className="box flex items-center justify-between h-12">
-                            <p className="font-bold leading-normal text-[#4D4D4D]">Umumiy narx:</p>
+                            <p className="font-bold leading-normal text-[#4D4D4D]">{lang.grandTotal}</p>
                             <p className="font-bold text-sm leading-normal">
                                 {formatCurrency(finalPrice)}
                             </p>
                         </div>
                         <button
                             onClick={() => setModalOpen(true)}
-                            className="bg-primary text-white rounded-full py-2 px-5 mt-3"
+                            className="bg-customRed text-white rounded-full py-2 px-5 mt-3"
                         >
-                            Buyurtma qilish
+                            {lang.order}
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-    )
+    );
 };

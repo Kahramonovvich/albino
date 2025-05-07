@@ -8,34 +8,30 @@ const defaultLocale = 'uz';
 export function middleware(req) {
     const url = req.nextUrl.clone();
     const path = url.pathname;
-    const hostname = req.nextUrl.hostname;
-
-    // ===== 0. Subdomain routing =====
-    if (hostname.startsWith('admin.')) {
-        if (!path.startsWith('/admin')) {
-            url.pathname = `/admin${path}`;
-            return NextResponse.rewrite(url);
-        }
-    }
 
     // ===== 1. Rate limiting для API =====
-    const ip = req.ip ?? req.headers.get("x-forwarded-for") ?? "unknown";
-    const now = Date.now();
+    // const ip = req.ip ?? req.headers.get("x-forwarded-for") ?? "unknown";
+    // const now = Date.now();
 
-    if (path.startsWith("/api")) {
-        if (rateLimit.has(ip)) {
-            const lastRequestTime = rateLimit.get(ip);
-            if (now - lastRequestTime < 3000) {
-                return new Response("Too Many Requests", { status: 429 });
-            }
-        }
-        rateLimit.set(ip, now);
-    }
+    // if (path.startsWith("/api")) {
+    //     if (rateLimit.has(ip)) {
+    //         const lastRequestTime = rateLimit.get(ip);
+    //         if (now - lastRequestTime < 3000) {
+    //             return new Response("Too Many Requests", { status: 429 });
+    //         }
+    //     }
+    //     rateLimit.set(ip, now);
+    // }
 
     // ===== 2. Admin защита =====
-    const token = req.cookies.get('admin_token');
+    const cookie = req.cookies.get('admin_token');
+    let token = '';
+    if (cookie) {
+        const cookieData = JSON?.parse(cookie?.value);
+        token = cookieData.token;
+    };
 
-    if ((path === "/admin" || path.startsWith("/admin/")) && !token?.value) {
+    if ((path === "/ru/admin" || path === "/uz/admin" || path === "/admin" || path.startsWith("/admin/")) && !token) {
         return NextResponse.redirect(new URL("/login", req.url));
     }
 

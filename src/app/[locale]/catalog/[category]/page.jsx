@@ -1,40 +1,34 @@
 import Link from 'next/link';
 import HomeIcon from '@icons/home.svg'
 import TopArrowICon from '@icons/topArrow.svg'
-import FilterComponents, { FilterButton, FilterDropdown, RatingChange, TagesSelect } from '@/components/FilterComponents';
+import FilterComponents, { FilterBrand, FilterButton, FilterDropdown, RatingChange, TagesSelect } from '@/components/FilterComponents';
 import { formatCurrency, productsSlug } from '@/utils/utils';
 import LikeButtonComponent from '@/components/LikeButtonComponent';
 import Image from 'next/image';
 import AddToBasketButton from '@/components/AddToBasketButton';
 import ThemeRegistry from '../../providers/ThemeRegistry';
+import { navMenu } from '@/constants/constants';
 const BASE_URL = process.env.API_BASE_URL;
 
 export default async function Products({ params, searchParams }) {
 
     const category = await params?.category?.replace(/-/gi, ' ');
+    const catFilter = navMenu.find((cat) => cat.slug.replace('/catalog/', '') === params?.category);
+
     const locale = await params?.locale;
     const langMap = { uz: 1, ru: 2 };
     const languageId = langMap[locale] || 1;
     const resProducts = await fetch(`${BASE_URL}/api/Products/GetAllProducts?languageId=${languageId}`, {
         next: { tags: ['products'] }
     });
-
-    const text = await resProducts.text();
-    let allProducts;
-
-    try {
-        allProducts = JSON.parse(text);
-    } catch (e) {
-        console.error('Ошибка парсинга JSON:', text);
-        allProducts = [];
-    };
-    const productsWithSlug = await productsSlug(allProducts);
+    const allProducts = await resProducts.json();
 
     let categoryProducts = [];
+    let selectedCategory = Number(languageId) === 1 ? catFilter?.name : catFilter?.nameRu;
 
-    if (category !== 'barcha mahsulotlar') {
+    if (category !== 'all products') {
         const resCategory = await fetch(
-            `${BASE_URL}/api/Products/GetAllProductByCategory/${category.toLocaleUpperCase()}?languageId=${languageId}`,
+            `${BASE_URL}/api/Products/GetAllProductByCategory/${selectedCategory?.toLocaleUpperCase()}?languageId=${languageId}`,
             {
                 next: { tags: ['products'] }
             }
@@ -46,13 +40,15 @@ export default async function Products({ params, searchParams }) {
             console.error('Ошибка при запросе категорий:', resCategory.status);
             categoryProducts = [];
         }
+    } else {
+        selectedCategory = Number(languageId) === 1 ? 'Barcha mahsulotlar' : 'Все продукты';
     };
-    const productsWithSlugAndCategory = await productsSlug(categoryProducts);
 
     const filter = await searchParams?.filter;
     const price = await searchParams?.price;
     const rating = await searchParams?.rating;
     const tag = await searchParams?.tag;
+    const brand = await searchParams?.brand;
     let priceFrom = null;
     let priceTo = null;
     if (price) {
@@ -61,16 +57,23 @@ export default async function Products({ params, searchParams }) {
         priceTo = to;
     };
     const products = async () => {
-        if (category === 'barcha mahsulotlar') {
-            return productsWithSlug;
+        if (category === 'all products') {
+            return allProducts;
         } else {
-            return productsWithSlugAndCategory;
+            return categoryProducts;
         };
     };
 
     const activeProducts = await products();
 
     let filteredProducts = activeProducts;
+
+    // Фильтруем по бренду
+    if (brand) {
+        filteredProducts = activeProducts.filter((product) => {
+            return product.shortDescription.toLowerCase() === brand.toLowerCase();
+        });
+    };
 
     // Фильтруем по цене
     if (price) {
@@ -115,21 +118,30 @@ export default async function Products({ params, searchParams }) {
         <div className="products">
             <div className="container">
                 <div className="top md:my-12 my-8 flex items-center gap-x-3">
-                    <Link href={'/'}>
+                    <Link href={`/${Number(languageId) === 1 ? 'uz' : 'ru'}`}>
                         <HomeIcon />
                     </Link>
                     <TopArrowICon />
                     <Link
-                        href={'/catalog/barcha-mahsulotlar'}
+                        href={`/${Number(languageId) === 1 ? 'uz' : 'ru'}/catalog/all-products`}
                         className='text-[#999] leading-normal'
                     >
-                        Katalog
+                        {Number(languageId) === 1 ? 'Katalog' : 'Каталог'}
                     </Link>
                     <TopArrowICon />
-                    <p className='text-primary leading-normal'>
-                        {category.charAt(0).toLocaleUpperCase() + category.slice(1)}
+                    <p className='text-customRed leading-normal'>
+                        {selectedCategory?.charAt(0).toLocaleUpperCase() + selectedCategory?.slice(1).toLowerCase()}
                     </p>
                 </div>
+                <FilterBrand
+                    category={category}
+                    filter={filter}
+                    price={price}
+                    rating={rating}
+                    tag={tag}
+                    languageId={languageId}
+                    brand={brand}
+                />
                 <div className="filterTopBox mb-6 grid grid-cols-4 md:gap-x-6 gap-x-3 items-center">
                     <div className="box">
                         <FilterButton />
@@ -141,12 +153,24 @@ export default async function Products({ params, searchParams }) {
                             price={price}
                             rating={rating}
                             tag={tag}
+                            languageId={languageId}
                         />
                         <div className="resultBox hidden md:block">
                             <p className='text-[#808080] leading-normal'>
-                                <span className='font-semibold text-[#1A1A1A] leading-tight'>
-                                    {filteredProducts?.length}
-                                </span> Natijalar topildi
+                                {Number(languageId) === 1 ? (
+                                    <>
+                                        <span className='font-semibold text-[#1A1A1A] leading-tight'>
+                                            {filteredProducts?.length}
+                                        </span> ta mahsulot topildi
+                                    </>
+                                ) : (
+                                    <>
+                                        Найдено{" "}
+                                        <span className='font-semibold text-[#1A1A1A] leading-tight'>
+                                            {filteredProducts?.length}
+                                        </span> товаров
+                                    </>
+                                )}
                             </p>
                         </div>
                     </div>
@@ -156,7 +180,7 @@ export default async function Products({ params, searchParams }) {
                         <ThemeRegistry>
                             <FilterComponents
                                 category={category}
-                                products={productsWithSlug}
+                                products={allProducts}
                                 filteredProducts={filteredProducts}
                                 priceFrom={priceFrom}
                                 priceTo={priceTo}
@@ -164,22 +188,23 @@ export default async function Products({ params, searchParams }) {
                                 rating={rating}
                                 price={price}
                                 tag={tag}
+                                languageId={languageId}
                             />
                         </ThemeRegistry>
-                        <RatingChange
+                        {/* <RatingChange
                             filter={filter}
                             rating={rating}
                             price={price}
                             tag={tag}
                             category={category}
-                        />
+                        /> */}
                         <TagesSelect
                             filter={filter}
                             rating={rating}
                             price={price}
                             tag={tag}
                             category={category}
-                            products={productsWithSlug}
+                            products={allProducts}
                         />
                     </div>
                     <div
@@ -220,22 +245,16 @@ export default async function Products({ params, searchParams }) {
                                     </div>
                                 </div>
                                 <div className="bottom flex-1 md:px-5 px-3 py-2.5 flex flex-col gap-y-1.5 justify-between">
-                                    <Link
-                                        href={product.slug}
-                                        className='text-[#222] md:leading-[23px] text-sm md:text-base hover:text-primary transition-all duration-200 ease-in-out'
+                                    <p
+                                        className='text-[#222] md:leading-[23px] text-sm md:text-base hover:text-customRed transition-all duration-200 ease-in-out'
                                     >
                                         {`${product.name} - ${product.shortDescription}`}
-                                    </Link>
+                                    </p>
                                     <div className="flex flex-col gap-y-2.5">
-                                        <div className="ratingBox flex items-center gap-x-2.5">
-                                            <p className='text-[#484848] leading-[23px]'>
-                                                {product.rating}
-                                            </p>
-                                        </div>
                                         <div className="priceBox md:flex items-center justify-between">
-                                            <p className='font-bold md:text-lg md:leading-[23px] mb-3 md:mb-0'>
+                                            {/* <p className='font-bold md:text-lg md:leading-[23px] mb-3 md:mb-0'>
                                                 {formatCurrency(product.discount ? product.newPrice : product.price)}
-                                            </p>
+                                            </p> */}
                                             <AddToBasketButton
                                                 id={product.id}
                                                 products={allProducts}

@@ -84,7 +84,7 @@ export default function AddToBasketButton({ id, qty = 1, products }) {
                         initial={{ opacity: 0, scale: 0.7 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.7 }}
-                        className="bg-primary w-10 h-10 rounded-full flex items-center justify-center"
+                        className="bg-customRed w-10 h-10 rounded-full flex items-center justify-center"
                     >
                         <Bag className="w-5 h-5 text-white" />
                     </motion.button>

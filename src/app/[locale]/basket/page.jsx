@@ -1,4 +1,3 @@
-import { productsSlug } from '@/utils/utils'
 import BasketClient from './Basket'
 const BASE_URL = process.env.API_BASE_URL;
 
@@ -11,7 +10,6 @@ export default async function BasketPage({ params }) {
     next: { tags: ['products'] }
   });
   const products = await resProducts.json();
-  const productsWithSlug = await productsSlug(products);
 
-  return <BasketClient products={productsWithSlug} languageId={languageId} />
+  return <BasketClient products={products} languageId={languageId} />
 };

@@ -5,7 +5,6 @@ import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Icon from '@icons/comIcon.svg'
 import Image from 'next/image';
-import { Rating } from '@mui/material';
 
 export default function StaticCommentsComponent() {
     return (

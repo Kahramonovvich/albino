@@ -1,62 +1,61 @@
 'use client'
 import { Modal, TextField, Button, MenuItem, Checkbox, FormControlLabel } from "@mui/material"
 import { useEffect, useState } from "react"
-import { navMenu, partners } from "@/constants/constants";
+import { navMenu } from "@/constants/constants";
 import { useRouter } from "next/navigation";
 import imageCompression from 'browser-image-compression';
 
-export default function CreateProductModal({ openModal, setOpenModal }) {
+export default function UpdateProductModal({ openModal, setOpenModal, languageId, product }) {
 
     const router = useRouter();
 
-    const [languageId, setLanguageId] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
-    const [isClose, setIsClose] = useState(false);
     const [form, setForm] = useState({
+        Id: product.id,
         LanguageId: languageId,
-        Name: '',
-        Description: 'noValue',
-        ShortDescription: '',
-        Price: '',
-        NewPrice: 0,
-        Category: '',
-        Type: 'noValue',
-        Quantity: '',
-        Sku: '',
-        discount: false,
-        Weight: '0',
-        Color: ['noValue'],
-        AvailabilityCount: '',
-        Tags: [],
+        Name: product.name,
+        Description: product.description,
+        ShortDescription: product.shortDescription,
+        Price: product.price,
+        NewPrice: product.newPrice,
+        Category: product.category,
+        Type: product.type,
+        Quantity: product.quantity,
+        Sku: product.sku,
+        discount: product.discount,
+        Weight: product.weight,
+        Color: product.color,
+        AvailabilityCount: product.availabilityCount,
+        Tags: product.tags,
         Images: [],
     });
 
     const handleClose = () => {
 
-        if (isLoading || languageId === 2 && !isClose) {
+        if (isLoading) {
             return;
         };
 
         setOpenModal(false);
         setForm({
+            Id: '',
             LanguageId: languageId,
             Name: '',
-            Description: 'noValue',
+            Description: '',
             ShortDescription: '',
             Price: '',
             NewPrice: 0,
             Category: '',
-            Type: 'noValue',
+            Type: '',
             Quantity: '',
             Sku: '',
             discount: false,
-            Weight: '0',
-            Color: ['noValue'],
+            Weight: '',
+            Color: [],
             AvailabilityCount: '',
             Tags: [],
             Images: [],
         });
-        setLanguageId(1);
     };
 
     const handleChange = (e) => {
@@ -116,7 +115,7 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
         formData.append("Category", nameToUse);
 
         const compressedImages = await compressImages(form.Images);
-        compressedImages.forEach((file, index) => {
+        compressedImages?.forEach((file, index) => {
             const ext = file.type.split('/')[1];
             const filename = `image_${index}_${Date.now()}.${ext}`;
             const renamedFile = new File([file], filename, { type: file.type });
@@ -125,23 +124,14 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
         });
 
         try {
-            const res = await fetch('api/Products/CreateProduct', {
-                method: 'POST',
+            const res = await fetch('api/Products/UpdateProduct', {
+                method: 'PUT',
                 body: formData,
             });
             if (res.ok) {
-                setLanguageId(2);
-                alert("Mahsulot qo'shildi");
-                setForm({
-                    ...form,
-                    LanguageId: 2,
-                    Name: '',
-                    Tags: [],
-                });
-                if (languageId === 2) {
-                    setIsClose(true);
-                    router.refresh();
-                };
+                alert("Mahsulot yangilandi");
+                handleClose();
+                router.refresh();
             } else {
                 alert('Xatolik');
                 console.error('Xatolik:', res);
@@ -155,10 +145,27 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
     };
 
     useEffect(() => {
-        if (languageId === 2) {
-            handleClose();
-        };
-    }, [languageId, isClose]);
+        const selectedCategory = navMenu.find(cat => cat.name === product.category || cat.nameRu === product.category);
+        setForm({
+            Id: product.id,
+            LanguageId: languageId,
+            Name: product.name,
+            Description: product.description,
+            ShortDescription: product.shortDescription,
+            Price: product.price,
+            NewPrice: product.newPrice,
+            Category: selectedCategory?.id,
+            Type: product.type,
+            Quantity: product.quantity,
+            Sku: product.sku,
+            discount: product.discount,
+            Weight: product.weight,
+            Color: product.color,
+            AvailabilityCount: product.availabilityCount,
+            Tags: product.tags,
+            Images: [],
+        });
+    }, [product]);
 
     return (
         <div className="createProduct">
@@ -171,7 +178,7 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
             >
                 <div className="box w-3/4 bg-white p-4 rounded-lg max-h-[90vh] overflow-y-auto">
                     <div className="box mb-3 flex items-center justify-between">
-                        <p className="text-lg font-semibold">Mahsulot yaratish</p>
+                        <p className="text-lg font-semibold">Mahsulot yangilash</p>
                         <p className="text-lg font-semibold"><span className='text-red-500'>{languageId === 1 ? 'O`zbek' : 'Rus'}</span> tilida to'ldiring!</p>
                     </div>
                     <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -183,7 +190,7 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
                             fullWidth
                             required
                         />
-                        {/* <TextField
+                        <TextField
                             label="Tavsif"
                             name="Description"
                             value={form.Description}
@@ -192,26 +199,15 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
                             required
                             multiline
                             maxRows={10}
-                        /> */}
+                        />
                         <TextField
-                            select
-                            label="Brend"
+                            label="Qisqacha tavsif"
                             name="ShortDescription"
                             value={form.ShortDescription}
                             onChange={handleChange}
                             fullWidth
                             required
-                            disabled={languageId === 2}
-                        >
-                            {partners.map((option) => (
-                                <MenuItem
-                                    key={option.name}
-                                    value={option.name}
-                                >
-                                    {option.name}
-                                </MenuItem>
-                            ))}
-                        </TextField>
+                        />
                         <TextField
                             label="Narxi"
                             name="Price"
@@ -232,14 +228,14 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
                             required={form.discount}
                             disabled={!form.discount || languageId === 2}
                         />
-                        {/* <TextField
+                        <TextField
                             label="Turi"
                             name="Type"
                             value={form.Type}
                             onChange={handleChange}
                             fullWidth
                             required
-                        /> */}
+                        />
                         <TextField
                             label="Ombordagi soni"
                             name="Quantity"
@@ -259,7 +255,7 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
                             required
                             disabled={languageId === 2}
                         />
-                        {/* <TextField
+                        <TextField
                             label="Og'irligi"
                             name="Weight"
                             type="number"
@@ -267,7 +263,7 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
                             onChange={handleChange}
                             fullWidth
                             required
-                        /> */}
+                        />
                         <TextField
                             select
                             label="Kategoriya"
@@ -287,19 +283,19 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
                         <TextField
                             label="Teglar (vergul bilan ajratilgan)"
                             name="Tags"
-                            value={form.Tags.join(',')}
+                            value={form.Tags?.join(',')}
                             onChange={(e) => setForm({ ...form, Tags: e.target.value.split(',') })}
                             fullWidth
                             required
                         />
-                        {/* <TextField
+                        <TextField
                             label="Rangi"
                             name="Color"
-                            value={form.Color.join(',')}
+                            value={form.Color?.join(',')}
                             onChange={(e) => setForm({ ...form, Color: e.target.value.split(',') })}
                             fullWidth
                             required
-                        /> */}
+                        />
                         <FormControlLabel
                             control={
                                 <Checkbox
@@ -314,8 +310,8 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
                         <input
                             type="file"
                             name="Images"
+                            multiple
                             onChange={handleChange}
-                            required
                             max={4}
                             disabled={languageId === 2}
                         />

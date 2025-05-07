@@ -9,10 +9,17 @@ import PhoneIcon from '@/assets/icons/PhoneCall.svg';
 import { navMenu } from "@/constants/constants";
 import { useState } from "react";
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
+import "/node_modules/flag-icons/css/flag-icons.min.css";
+import { usePathname } from "next/navigation";
 
-export default function Nav() {
+export default function Nav({ languageId }) {
+
+    const pathName = usePathname();
+
     const [open, setOpen] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [selectedLanguage, setSelectedLanguage] = useState(Number(languageId) === 1 ? 'uz' : 'ru');
+    const [openLang, setOpenLang] = useState(false);
 
     return (
         <nav>
@@ -50,8 +57,29 @@ export default function Nav() {
 
                         {/* Icons */}
                         <div className="flex items-center gap-4">
-                            <Link href={'/#'}><HeartIcon /></Link>
-                            <Link href={'/#'}><BagIcon /></Link>
+                            <Link href={'/favorites'}><HeartIcon /></Link>
+                            <Link href={'/basket'}><BagIcon /></Link>
+                            <div className="box flex items-center relative">
+                                <button className="font-bold flex items-center" onClick={() => setOpenLang(!openLang)}>
+                                    <span className={`fi fi-${selectedLanguage}`}></span>
+                                </button>
+                                {openLang && (
+                                    <div className="box flex gap-x-2 mt-2 z-50 absolute top-full right-1/2 translate-x-1/2">
+                                        <Link
+                                            href={pathName.replace(/^\/(uz|ru)/, '/uz')}
+                                            onClick={() => { setOpenLang(false); setSelectedLanguage('uz'); }}
+                                        >
+                                            <span className="fi fi-uz"></span>
+                                        </Link>
+                                        <Link
+                                            href={pathName.replace(/^\/(uz|ru)/, '/ru')}
+                                            onClick={() => { setOpenLang(false); setSelectedLanguage('ru'); }}
+                                        >
+                                            <span className="fi fi-ru"></span>
+                                        </Link>
+                                    </div>
+                                )}
+                            </div>
 
                             {/* Mobile burger */}
                             <button className="md:hidden" onClick={() => setMobileOpen(!mobileOpen)}>
@@ -76,7 +104,7 @@ export default function Nav() {
                                 <ArrowIcon />
                             </button>
                             <Link href={'/'} className="flex items-center gap-x-1 text-customRed">Home <ArrowIcon /></Link>
-                            <Link href={'/catalog/barcha-mahsulotlar'} className="flex items-center gap-x-1 text-gray-500">Shop <ArrowIcon /></Link>
+                            <Link href={'/catalog/all-products'} className="flex items-center gap-x-1 text-gray-500">Shop <ArrowIcon /></Link>
                             <Link href={'/#'} className="flex items-center gap-x-1 text-gray-500">Pages <ArrowIcon /></Link>
                             <Link href={'/#'} className="flex items-center gap-x-1 text-gray-500">Blog <ArrowIcon /></Link>
                             <Link href={'/#'} className="flex items-center gap-x-1 text-gray-500">About Us</Link>
@@ -92,13 +120,13 @@ export default function Nav() {
                                 {navMenu.map((menu) => (
                                     <Link
                                         key={menu.id}
-                                        href={menu.slug}
+                                        href={`/${selectedLanguage}${menu.slug}`}
                                         className="flex items-center gap-x-2 border p-2 rounded hover:bg-gray-100 w-[calc(33%-1rem)]"
                                     >
                                         <div className="relative w-10 h-10">
                                             <Image fill src={menu.img} alt={menu.name} style={{ objectFit: 'contain' }} />
                                         </div>
-                                        <span>{menu.name}</span>
+                                        <span>{Number(languageId) === 1 ? menu.name : menu.nameRu}</span>
                                     </Link>
                                 ))}
                             </div>

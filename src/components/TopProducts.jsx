@@ -1,62 +1,87 @@
 'use client'
-
-import { products } from "@/constants/constants";
 import Image from "next/image";
 import { useState } from "react";
-import LikeIcon from '@icons/Add To wishlist.svg'
 import { Rating } from "@mui/material";
+import LikeButtonComponent from "./LikeButtonComponent";
+import { partners } from "@/constants/constants";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
+import 'swiper/css';
+import ArrowIcon from '@icons/arrowLeft.svg'
+import ToBasket from "./ToBasket";
 
-const brands = [
-    {
-        brand: 'uzum',
-        img: '/images/Uzum-01 5.png'
-    },
-    {
-        brand: 'bosch',
-        img: '/images/image 2.png'
-    },
-    {
-        brand: 'kukmara',
-        img: '/images/2kY1s9Ga2opCeADADSqnx8jWKDT 5.png'
-    },
-    {
-        brand: 'texnomart',
-        img: '/images/texnomart_logo-01 4.png'
-    },
-];
+export default function TopProducts({ products, languageId }) {
 
-export default function TopProducts() {
+    const [activeProductBrand, setActiveProductBrandBrand] = useState('Vicalina');
 
-    const [activeProductBrand, setActiveProductBrandBrand] = useState('uzum');
-
-    const selectedProducts = products.filter((item) => item.brand.toLocaleLowerCase() === activeProductBrand.toLocaleLowerCase());
+    const selectedProducts = products?.filter((item) => item?.shortDescription?.toLocaleLowerCase() === activeProductBrand?.toLocaleLowerCase());
 
     return (
         <div className="topProducts mt-[50px]">
             <div className="container">
-                <div className="grid grid-cols-4 gap-x-10">
-                    {brands.map((item) => (
-                        <button
-                            className={`w-full h-[142px] px-8 py-10 rounded-[20px]
-                                ${activeProductBrand.toLocaleLowerCase() === item.brand.toLocaleLowerCase() ? 'bg-customRed' : ''}`}
-                            key={item.brand}
-                            onClick={() => setActiveProductBrandBrand(item.brand)}
-                        >
-                            <div className="box relative w-full h-full">
-                                <Image
-                                    fill
-                                    src={item.img}
-                                    style={{ objectFit: 'contain' }}
-                                    alt={item.brand}
-                                />
-                            </div>
-                        </button>
-                    ))}
+                <div className="relative">
+                    <Swiper
+                        breakpoints={{
+                            320: {
+                                slidesPerView: 2,
+                            },
+                            480: {
+                                slidesPerView: 2,
+                            },
+                            768: {
+                                slidesPerView: 3,
+                            },
+                            1024: {
+                                slidesPerView: 4,
+                            },
+                        }}
+                        spaceBetween={20}
+                        navigation={{
+                            nextEl: '.swiper-button-next',
+                            prevEl: '.swiper-button-prev',
+                        }}
+                        modules={[Navigation]}
+                    >
+                        {partners.map((item) => (
+                            <SwiperSlide key={item.name}>
+                                <button
+                                    className={`w-full md:h-[142px] md:p-5 rounded-[20px] h-20
+                                        ${activeProductBrand.toLocaleLowerCase() === item?.name.toLocaleLowerCase() ? ' border border-customRed border-opacity-20 bg-customRed bg-opacity-20' : 'border'}`}
+                                    onClick={() => setActiveProductBrandBrand(item.name)}
+                                >
+                                    <div className="box relative w-full h-full">
+                                        <Image
+                                            fill
+                                            src={item.img}
+                                            style={{ objectFit: 'contain' }}
+                                            alt={item.name}
+                                        />
+                                    </div>
+                                </button>
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+
+                    {/* Навигационные кнопки */}
+                    <div className="swiper-button-prev flex items-center justify-center w-10 h-10 bg-customRed rounded-full cursor-pointer absolute -left-4 top-1/2 transform -translate-y-1/2 z-10 text-white" >
+                        <ArrowIcon
+                            className="rotate-180"
+                        />
+                    </div>
+                    <div className="swiper-button-next flex items-center justify-center w-10 h-10 bg-customRed rounded-full cursor-pointer absolute -right-4 top-1/2 transform -translate-y-1/2 z-10 text-white" >
+                        <ArrowIcon />
+                    </div>
                 </div>
+
                 <div className="bottom mt-[50px]">
-                    <h2 className="font-semibold text-4xl mb-[50px]">
-                        <span className="capitalize">{activeProductBrand}</span> mahsulotlari
-                    </h2>
+                    {Number(languageId) === 1 ?
+                        <h2 className="font-semibold text-4xl mb-[50px]">
+                            <span className="capitalize">{activeProductBrand}</span> mahsulotlari
+                        </h2> :
+                        <h2 className="font-semibold text-4xl mb-[50px]">
+                            Продукты <span className="capitalize">{activeProductBrand}</span>
+                        </h2>
+                    }
                     <div className="grid md:grid-cols-4 grid-cols-2 gap-3 md:gap-[50px]">
                         {selectedProducts?.slice(0, 8).map((item) => (
                             <div
@@ -66,12 +91,14 @@ export default function TopProducts() {
                                 <div className="box bg-white rounded-[19px]">
                                     <div className="top p-4">
                                         <div className="flex justify-end">
-                                            <LikeIcon />
+                                            <div className="box flex items-center justify-center w-10 h-10 border rounded-full mb-2">
+                                                <LikeButtonComponent id={item.id} />
+                                            </div>
                                         </div>
                                         <div className="img relative w-full h-48">
                                             <Image
                                                 fill
-                                                src={item.img}
+                                                src={item.images[0].filePath}
                                                 style={{ objectFit: 'contain' }}
                                                 alt={item.name}
                                             />
@@ -82,13 +109,19 @@ export default function TopProducts() {
                                             <p className="text-[#4D4D4D] mb-2">
                                                 {item.name}
                                             </p>
-                                            <Rating name="read-only" value={item.rating.rate} readOnly sx={{
-                                                fontSize: '14px'
-                                            }} />
+                                            <Rating
+                                                name="read-only"
+                                                value={item.rating.rate}
+                                                readOnly sx={{
+                                                    fontSize: '14px'
+                                                }}
+                                            />
                                         </div>
-                                        <button className="bg-customRed py-3 mt-3 rounded-full w-full text-white font-semibold leading-tight">
-                                            Buyurtma qilish
-                                        </button>
+                                        <ToBasket
+                                            id={item.id}
+                                            products={products}
+                                            languageId={languageId}
+                                        />
                                     </div>
                                 </div>
                             </div>

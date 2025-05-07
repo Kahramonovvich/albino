@@ -4,73 +4,71 @@ import { FaTiktok, FaYoutube, FaTelegramPlane, FaInstagram } from "react-icons/f
 import Link from "next/link";
 import Image from "next/image";
 
-const socialMedia = [
-    {
-        name: 'Instagram',
-        href: 'https://www.instagram.com/vicalina.uz/',
-        icon: <FaInstagram />
-    },
-    {
-        name: 'Telegram',
-        href: 'https://t.me/VicalinaOfficial',
-        icon: <FaTelegramPlane />
-    },
-    {
-        name: 'YouTube',
-        href: 'https://www.youtube.com/@Vicalina_2009',
-        icon: <FaYoutube />
-    },
-    {
-        name: 'TikTok',
-        href: 'https://www.tiktok.com/@vicalina.uz',
-        icon: <FaTiktok />
-    },
-];
+export default function Footer({ languageId }) {
 
-const footerMenu = [
-    {
-        id: 1,
-        top: 'Kompaniya',
-        items: [
-            { item: 'Kompaniya haqida' },
-            { item: 'Sertifikatlar' },
-            { item: 'Sharxlar' },
-        ]
-    },
-    {
-        id: 2,
-        top: 'Yordam',
-        items: [
-            { item: 'Faqs' },
-            { item: 'Terms & Condition' },
-            { item: 'Privacy Policy' },
-        ]
-    },
-];
-
-export default function Footer() {
     const [phoneNumber, setPhoneNumber] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
     };
 
+    const t = {
+        company: languageId === 2 ? 'Компания' : 'Kompaniya',
+        companyItems: languageId === 2
+            ? ['О компании', 'Сертификаты', 'Отзывы']
+            : ['Kompaniya haqida', 'Sertifikatlar', 'Sharxlar'],
+        help: languageId === 2 ? 'Помощь' : 'Yordam',
+        helpItems: languageId === 2
+            ? ['Вопросы и ответы', 'Условия использования', 'Политика конфиденциальности']
+            : ['Faqs', 'Terms & Condition', 'Privacy Policy'],
+        inputPlaceholder: languageId === 2 ? 'Ваш номер...' : 'Raqamingiz...',
+        buttonText: languageId === 2 ? 'Связаться' : 'Bog’lanish',
+        description: languageId === 2
+            ? 'Наша цель — сделать процесс готовки удобным и приятным для каждой хозяйки и повара.'
+            : 'Bizning maqsadimiz – har bir uy bekasiga va oshpazga pishirish jarayonini yanada qulay va yoqimli qilish.',
+    };
+
+    const footerMenu = [
+        {
+            id: 1,
+            top: t.company,
+            items: t.companyItems.map(item => ({ item }))
+        },
+        {
+            id: 2,
+            top: t.help,
+            items: t.helpItems.map(item => ({ item }))
+        },
+    ];
+
+    const socialMedia = [
+        {
+            name: 'Instagram',
+            href: 'https://www.instagram.com/vicalina.uz/',
+            icon: <FaInstagram />
+        },
+        {
+            name: 'Telegram',
+            href: 'https://t.me/VicalinaOfficial',
+            icon: <FaTelegramPlane />
+        },
+        {
+            name: 'YouTube',
+            href: 'https://www.youtube.com/@Vicalina_2009',
+            icon: <FaYoutube />
+        },
+        {
+            name: 'TikTok',
+            href: 'https://www.tiktok.com/@vicalina.uz',
+            icon: <FaTiktok />
+        },
+    ];
+
     return (
         <footer className="md:mt-[45px] mt-8">
             <div className="top bg-[#F7F7F7] py-10">
                 <div className="container">
                     <div className="flex flex-col md:flex-row items-start md:items-center justify-center gap-y-6 md:gap-y-0 gap-x-[58px]">
-                        {/* <div className="text">
-                            <p className="font-semibold text-2xl leading-normal">
-                                Ijtimoiy tarmoqlarimizga obuna bo’ling!
-                            </p>
-                            <p className="text-sm leading-normal text-[#999999]">
-                                Bizdagi yangiliklarni ijtioiy tarmoqlarda bilib oling va eng
-                                <br className="hidden md:block" />
-                                birinchilardan bo’ling!
-                            </p>
-                        </div> */}
-
                         <form
                             onSubmit={handleSubmit}
                             className="w-full max-w-[460px] md:flex-1 relative"
@@ -78,7 +76,7 @@ export default function Footer() {
                             <input
                                 type="text"
                                 className="px-6 py-3.5 pr-44 w-full rounded-full outline-none border"
-                                placeholder="Raqamingiz..."
+                                placeholder={t.inputPlaceholder}
                                 value={phoneNumber}
                                 onChange={(e) => setPhoneNumber(e.target.value.replace(/[^0-9+]/g, ""))}
                                 maxLength={13}
@@ -87,7 +85,7 @@ export default function Footer() {
                                 type="submit"
                                 className="flex items-center justify-center bg-customRed font-semibold text-white leading-5 absolute top-0 right-0 h-full rounded-full px-10"
                             >
-                                Bog’lanish
+                                {t.buttonText}
                             </button>
                         </form>
 
@@ -123,10 +121,10 @@ export default function Footer() {
                                 </Link>
                             </div>
                             <p className="leading-normal text-[#808080] text-sm md:text-base">
-                                Bizning maqsadimiz – har bir uy bekasiga va oshpazga pishirish jarayonini yanada qulay va yoqimli qilish.
+                                {t.description}
                             </p>
                             <div className="text-white flex flex-wrap items-center gap-x-4 gap-y-2">
-                               
+                                {/* Доп инфо, если нужно */}
                             </div>
                         </div>
 

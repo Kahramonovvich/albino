@@ -9,14 +9,29 @@ import { navMenu } from '@/constants/constants';
 import { Slider } from '@mui/material';
 import MorphArrow from './MorphArrow';
 import CheckIcon from '@icons/check 1.svg'
+import { partners } from "@/constants/constants";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
+import 'swiper/css';
+import ArrowIcon from '@icons/arrowLeft.svg'
+import Image from 'next/image';
 
-const options = [
+const optionsUz = [
     { value: '', label: 'Tanlang' },
     { value: 'rating', label: 'Reytingi yuqori' },
     { value: 'cheaper', label: 'Arzonroq' },
     { value: 'expensive', label: 'Qimmatroq' },
     { value: 'discounted', label: "Chegirma bo'yicha" },
     { value: 'newest', label: "Yaqinda qo'shilgan" },
+];
+
+const optionsRu = [
+    { value: '', label: 'Выберите' },
+    { value: 'rating', label: 'Высокий рейтинг' },
+    { value: 'cheaper', label: 'Дешевле' },
+    { value: 'expensive', label: 'Дороже' },
+    { value: 'discounted', label: 'По скидке' },
+    { value: 'newest', label: 'Недавно добавленные' },
 ];
 
 function countProductsByCategory(products, allCategories) {
@@ -26,10 +41,10 @@ function countProductsByCategory(products, allCategories) {
     }, {});
 
     return allCategories.map(category => ({
-        category,
-        count: countMap[category] || 0
+        ...category,
+        count: countMap[category.title] || 0
     }));
-};
+}
 
 const getMinMaxPrices = (products) => {
     if (!products || products.length === 0) return { min: 0, max: 0 };
@@ -52,9 +67,23 @@ const ratingBox = [
     { value: 1 },
 ];
 
-export default function FilterComponents({ category, products, filteredProducts, priceFrom, priceTo, filter, rating, tag }) {
+export default function FilterComponents({
+    category,
+    products,
+    filteredProducts,
+    priceFrom,
+    priceTo,
+    filter,
+    rating,
+    tag,
+    languageId
+}) {
 
-    const allCategories = navMenu.map((item) => item.name);
+    const langCode = Number(languageId) === 1 ? 'uz' : 'ru';
+    const allCategories = navMenu.map((item) => ({
+        title: Number(languageId) === 1 ? item?.name : item?.nameRu,
+        slug: item?.slug
+    }));
     const result = countProductsByCategory(products, allCategories);
     const { min, max } = getMinMaxPrices(products);
     const router = useRouter();
@@ -70,7 +99,7 @@ export default function FilterComponents({ category, products, filteredProducts,
         if (rating) params.set('rating', rating);
         if (tag) params.set('tag', tag);
 
-        router?.push(`/catalog/${category.toLowerCase().replace(/\s+/g, '-')}?${params.toString().toLowerCase()}`);
+        router?.push(`/${langCode}/catalog/${category.toLowerCase().replace(/\s+/g, '-')}?${params.toString().toLowerCase()}`);
     };
 
     const toggleItem = (index) => {
@@ -101,7 +130,7 @@ export default function FilterComponents({ category, products, filteredProducts,
                     onClick={() => toggleItem(0)}
                     className="top flex items-center justify-between w-full mb-5 font-medium text-xl leading-normal"
                 >
-                    Barcha Kataloglar
+                    {Number(languageId) === 1 ? "Barcha Kataloglar" : "Все каталоги"}
                     <MorphArrow isOpen={isOpen[0]} />
                 </button>
                 <AnimatePresence initial={false}>
@@ -114,21 +143,21 @@ export default function FilterComponents({ category, products, filteredProducts,
                             className="overflow-hidden"
                         >
                             {result?.map((cat) => (
-                                <div className="box py-2.5 last-of-type:pb-6" key={cat.category}>
+                                <div className="box py-2.5 last-of-type:pb-6" key={cat.title}>
                                     <Link
-                                        href={`/catalog/${cat.category.toLowerCase().replace(/\s+/g, '-')}`}
+                                        href={`/${langCode}${cat.slug.toLowerCase().replace(/\s+/g, '-')}`}
                                         className="box flex items-center gap-x-2"
                                     >
                                         <div
                                             className={`w-5 h-5 border-2 rounded-full flex items-center justify-center
-                                                ${category?.toLowerCase() === cat.category.toLowerCase() ? 'border-primary' : ''}`}
+                                                ${category?.toLowerCase() === cat.title.toLowerCase() ? 'border-customRed' : ''}`}
                                         >
-                                            <div className={`w-3 h-3 bg-primary rounded-full 
-                                                ${category?.toLowerCase() === cat.category.toLowerCase() ? 'opacity-100' : 'opacity-0'}`}
+                                            <div className={`w-3 h-3 bg-customRed rounded-full 
+                                                ${category?.toLowerCase() === cat.title.toLowerCase() ? 'opacity-100' : 'opacity-0'}`}
                                             ></div>
                                         </div>
                                         <h2 className="text-sm leading-normal text-[#1A1A1A]">
-                                            {cat.category} <span className="text-[#808080]">({cat.count})</span>
+                                            {cat.title} <span className="text-[#808080]">({cat.count})</span>
                                         </h2>
                                     </Link>
                                 </div>
@@ -142,7 +171,7 @@ export default function FilterComponents({ category, products, filteredProducts,
                     onClick={() => toggleItem(1)}
                     className="top flex items-center justify-between w-full mb-5 font-medium text-xl leading-normal"
                 >
-                    Narx
+                    {Number(languageId) === 1 ? "Narx" : "Цена"}
                     <MorphArrow isOpen={isOpen[1]} />
                 </button>
                 <AnimatePresence initial={false}>
@@ -167,7 +196,9 @@ export default function FilterComponents({ category, products, filteredProducts,
                                 />
                             </div>
                             <p className='text-[#1A1A1A] text-sm leading-normal font-black pb-6'>
-                                <span className='text-[#4D4D4D] font-normal'>Narx: </span>
+                                <span className='text-[#4D4D4D] font-normal'>
+                                    {Number(languageId) === 1 ? "Narx: " : "Цена: "}
+                                </span>
                                 {value[0].toLocaleString('ru-RU').replace(/\s/g, '.')} — {value[1].toLocaleString('ru-RU').replace(/\s/g, '.')} so’m
                             </p>
                         </motion.div>
@@ -178,94 +209,97 @@ export default function FilterComponents({ category, products, filteredProducts,
     );
 };
 
-export function RatingChange({ filter, rating, tag, price, category }) {
+// export function RatingChange({ filter, rating, tag, price, category, languageId }) {
 
-    const [isOpen, setIsOpen] = useState(false);
-    const [selectedRatings, setSelectedRatings] = useState(Number(rating));
-    const router = useRouter();
+//     const langCode = Number(languageId) === 1 ? 'uz' : 'ru';
 
-    const applyFilters = (value) => {
-        const params = new URLSearchParams();
+//     const [isOpen, setIsOpen] = useState(false);
+//     const [selectedRatings, setSelectedRatings] = useState(Number(rating));
+//     const router = useRouter();
 
-        if (filter) params.set('filter', filter);
-        if (price) params.set('price', price);
-        if (Number(value) !== Number(rating)) params.set('rating', value);
-        if (tag) params.set('tag', tag);
+//     const applyFilters = (value) => {
+//         const params = new URLSearchParams();
 
-        router?.push(`/catalog/${category.toLowerCase().replace(/\s+/g, '-')}?${params.toString().toLowerCase()}`);
-    };
+//         if (filter) params.set('filter', filter);
+//         if (price) params.set('price', price);
+//         if (Number(value) !== Number(rating)) params.set('rating', value);
+//         if (tag) params.set('tag', tag);
 
-    const toggleRating = (value) => {
-        setSelectedRatings((prev) => {
-            if (prev === value) {
-                return '';
-            } else {
-                return value;
-            }
-        });
-        applyFilters(value);
-    };
+//         router?.push(`/${langCode}/catalog/${category.toLowerCase().replace(/\s+/g, '-')}?${params.toString().toLowerCase()}`);
+//     };
 
-    useEffect(() => {
-        setSelectedRatings(Number(rating));
-    }, [rating]);
+//     const toggleRating = (value) => {
+//         setSelectedRatings((prev) => {
+//             if (prev === value) {
+//                 return '';
+//             } else {
+//                 return value;
+//             }
+//         });
+//         applyFilters(value);
+//     };
 
-    return (
-        <div className="ratingChange border-b mb-5">
-            <button
-                onClick={() => setIsOpen(!isOpen)}
-                className="top flex items-center justify-between w-full mb-5 font-medium text-xl leading-normal"
-            >
-                Reyting
-                <MorphArrow isOpen={isOpen} />
-            </button>
-            <AnimatePresence initial={false}>
-                {isOpen && (
-                    <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: "easeInOut" }}
-                        className="overflow-hidden"
-                    >
-                        {ratingBox.map((el) => (
-                            <div
-                                key={el.value}
-                                className="ratingBox py-2.5 flex gap-x-2 items-center last-of-type:pb-6">
-                                <input
-                                    type="checkbox"
-                                    name="rating"
-                                    id={`ratingCheck${el.value}`}
-                                    className='peer hidden'
-                                    checked={el.value === selectedRatings}
-                                    onChange={() => toggleRating(el.value)}
-                                />
-                                <div
-                                    className="w-5 h-5 flex items-center justify-center border border-[#CCCCCC]
-                                        peer-checked:bg-primary rounded-[3px] cursor-pointer"
-                                >
-                                    {selectedRatings === el.value && (
-                                        <CheckIcon />
-                                    )}
-                                </div>
-                                <label
-                                    htmlFor={`ratingCheck${el.value}`}
-                                    className='flex items-center gap-x-1 cursor-pointer'
-                                >
-                                    <RatingIcon
-                                        value={el.value}
-                                        className='!text-lg  !text-orange'
-                                    />
-                                    <span className='text-sm leading-normal'>{el.value}.0</span>
-                                </label>
-                            </div>
-                        ))}
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </div>
-    );
-};
+//     useEffect(() => {
+//         setSelectedRatings(Number(rating));
+//     }, [rating]);
+
+//     return (
+//         <div className="ratingChange border-b mb-5">
+//             <button
+//                 onClick={() => setIsOpen(!isOpen)}
+//                 className="top flex items-center justify-between w-full mb-5 font-medium text-xl leading-normal"
+//             >
+
+//                 {Number(languageId) === 1 ? "Reyting" : "Рейтинг"}
+//                 <MorphArrow isOpen={isOpen} />
+//             </button>
+//             <AnimatePresence initial={false}>
+//                 {isOpen && (
+//                     <motion.div
+//                         initial={{ height: 0, opacity: 0 }}
+//                         animate={{ height: "auto", opacity: 1 }}
+//                         exit={{ height: 0, opacity: 0 }}
+//                         transition={{ duration: 0.3, ease: "easeInOut" }}
+//                         className="overflow-hidden"
+//                     >
+//                         {ratingBox.map((el) => (
+//                             <div
+//                                 key={el.value}
+//                                 className="ratingBox py-2.5 flex gap-x-2 items-center last-of-type:pb-6">
+//                                 <input
+//                                     type="checkbox"
+//                                     name="rating"
+//                                     id={`ratingCheck${el.value}`}
+//                                     className='peer hidden'
+//                                     checked={el.value === selectedRatings}
+//                                     onChange={() => toggleRating(el.value)}
+//                                 />
+//                                 <div
+//                                     className="w-5 h-5 flex items-center justify-center border border-[#CCCCCC]
+//                                         peer-checked:bg-customRed rounded-[3px] cursor-pointer"
+//                                 >
+//                                     {selectedRatings === el.value && (
+//                                         <CheckIcon />
+//                                     )}
+//                                 </div>
+//                                 <label
+//                                     htmlFor={`ratingCheck${el.value}`}
+//                                     className='flex items-center gap-x-1 cursor-pointer'
+//                                 >
+//                                     <RatingIcon
+//                                         value={el.value}
+//                                         className='!text-lg  !text-orange'
+//                                     />
+//                                     <span className='text-sm leading-normal'>{el.value}.0</span>
+//                                 </label>
+//                             </div>
+//                         ))}
+//                     </motion.div>
+//                 )}
+//             </AnimatePresence>
+//         </div>
+//     );
+// };
 
 export function TagesSelect({ filter, rating, tag, price, category, products }) {
     const router = useRouter();
@@ -349,7 +383,7 @@ export function TagesSelect({ filter, rating, tag, price, category, products }) 
                                 <button
                                     key={tag}
                                     className={`tagBox py-1.5 px-4 rounded-full 
-                                        ${selectedTags.includes(tag) ? 'bg-primary text-white' : 'bg-[#F2F2F2]'}`}
+                                        ${selectedTags.includes(tag) ? 'bg-customRed text-white' : 'bg-[#F2F2F2]'}`}
                                     onClick={toggleTag(tag)}
                                 >
                                     <p className='text-sm leading-normal capitalize'>
@@ -365,7 +399,10 @@ export function TagesSelect({ filter, rating, tag, price, category, products }) 
     );
 };
 
-export function FilterDropdown({ filter, category, rating, price, tag }) {
+export function FilterDropdown({ filter, category, rating, price, tag, languageId }) {
+
+    const options = Number(languageId) === 1 ? optionsUz : optionsRu;
+    const langCode = Number(languageId) === 1 ? 'uz' : 'ru';
 
     const router = useRouter();
     const [sort, setSort] = useState(filter || '');
@@ -381,7 +418,7 @@ export function FilterDropdown({ filter, category, rating, price, tag }) {
         if (price) params.set('price', price);
         if (tag) params.set('tag', tag);
 
-        router?.push(`/catalog/${category.toLowerCase().replace(/\s+/g, '-')}?${params.toString().toLowerCase()}`);
+        router?.push(`/${langCode}/catalog/${category.toLowerCase().replace(/\s+/g, '-')}?${params.toString().toLowerCase()}`);
     };
 
     const handleSelect = (value) => {
@@ -409,7 +446,9 @@ export function FilterDropdown({ filter, category, rating, price, tag }) {
 
     return (
         <div className="flex items-center">
-            <label className="text-sm text-[#808080] leading-normal mr-2 hidden md:block">Saralash:</label>
+            <label className="text-sm text-[#808080] leading-normal mr-2 hidden md:block">
+                {Number(languageId) === 1 ? 'Saralash:' : 'Сортировать:'}
+            </label>
             <div className="relative flex-1" ref={dropdownRef}>
                 <div
                     onClick={() => setOpen(prev => !prev)}
@@ -465,20 +504,107 @@ export function FilterButton() {
     //     }
     // }, []);
 
-    const toggleFilterButton = () => {
-        const newValue = !isVisible;
-        setIsVisible(newValue);
-        // Cookies.set('isVisible', String(newValue));
-        router.replace(`${pathname}?${searchParams.toString()}`);
-    };
+    // const toggleFilterButton = () => {
+    //     const newValue = !isVisible;
+    //     setIsVisible(newValue);
+    //     Cookies.set('isVisible', String(newValue));
+    //     router.replace(`${pathname}?${searchParams.toString()}`);
+    // };
 
     return (
         <button
-            className='flex items-center gap-x-3 py-3.5 md:px-8 px-5 bg-primary text-white rounded-full font-semibold text-sm leading-tight'
-            onClick={toggleFilterButton}
+            className='flex items-center gap-x-3 py-3.5 md:px-8 px-5 bg-customRed text-white rounded-full font-semibold text-sm leading-tight'
+        // onClick={toggleFilterButton}
         >
             <span className='hidden md:block'>Filter</span>
             <FilterIcon />
         </button>
     );
+};
+
+export function FilterBrand({ filter, category, rating, price, tag, languageId, brand }) {
+
+    const langCode = Number(languageId) === 1 ? 'uz' : 'ru';
+    const router = useRouter();
+
+    const [activeProductBrand, setActiveProductBrandBrand] = useState(brand || '');
+
+    const applyFilters = (value) => {
+        const params = new URLSearchParams();
+
+        if (value) params.set('brand', value);
+        if (filter) params.set('filter', filter);
+        if (rating) params.set('rating', rating);
+        if (price) params.set('price', price);
+        if (tag) params.set('tag', tag);
+
+        router.push(`/${langCode}/catalog/${category?.toLowerCase().replace(/\s+/g, '-')}?${params.toString().toLowerCase()}`);
+    };
+
+    useEffect(() => {
+        if (!brand) {
+            setActiveProductBrandBrand('');
+        }
+    }, [brand]);
+
+    return (
+        <div className="filterBrand mb-10">
+            <div className="relative">
+                <Swiper
+                    breakpoints={{
+                        320: {
+                            slidesPerView: 2,
+                        },
+                        480: {
+                            slidesPerView: 2,
+                        },
+                        768: {
+                            slidesPerView: 3,
+                        },
+                        1024: {
+                            slidesPerView: 4,
+                        },
+                    }}
+                    spaceBetween={20}
+                    navigation={{
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    }}
+                    modules={[Navigation]}
+                >
+                    {partners.map((item) => (
+                        <SwiperSlide key={item.name}>
+                            <button
+                                className={`w-full md:h-[142px] md:p-5 rounded-[20px] h-20 box-border
+                                    ${activeProductBrand?.toLocaleLowerCase() === item?.name.toLocaleLowerCase() ? ' border border-customRed border-opacity-20 bg-customRed bg-opacity-20' : 'border'}`}
+                                onClick={() => {
+                                    setActiveProductBrandBrand(item.name);
+                                    applyFilters(item.name);
+                                }}
+                            >
+                                <div className="box relative w-full h-full">
+                                    <Image
+                                        fill
+                                        src={item.img}
+                                        style={{ objectFit: 'contain' }}
+                                        alt={item.name}
+                                    />
+                                </div>
+                            </button>
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+
+                {/* Навигационные кнопки */}
+                <div className="swiper-button-prev flex items-center justify-center w-10 h-10 bg-customRed rounded-full cursor-pointer absolute -left-4 top-1/2 transform -translate-y-1/2 z-10 text-white" >
+                    <ArrowIcon
+                        className="rotate-180"
+                    />
+                </div>
+                <div className="swiper-button-next flex items-center justify-center w-10 h-10 bg-customRed rounded-full cursor-pointer absolute -right-4 top-1/2 transform -translate-y-1/2 z-10 text-white" >
+                    <ArrowIcon />
+                </div>
+            </div>
+        </div>
+    )
 };
