@@ -31,7 +31,7 @@ const address = [
     },
 ];
 
-export default function Map() {
+export default function Map({ languageId }) {
     return (
         <div className="map mt-[50px]">
             <div className="container">

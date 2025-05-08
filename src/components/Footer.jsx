@@ -88,7 +88,6 @@ export default function Footer({ languageId }) {
                                 {t.buttonText}
                             </button>
                         </form>
-
                         <div className="socialBox flex items-center gap-2 md:gap-x-2 mt-4 md:mt-0">
                             {socialMedia.map((icon) => (
                                 <a
@@ -105,7 +104,6 @@ export default function Footer({ languageId }) {
                     </div>
                 </div>
             </div>
-
             <div className="bottom bg-[#2E2E2E] py-[60px]">
                 <div className="container">
                     <div className="flex flex-col md:items-center md:flex-row justify-between gap-y-10">
@@ -127,7 +125,6 @@ export default function Footer({ languageId }) {
                                 {/* Доп инфо, если нужно */}
                             </div>
                         </div>
-
                         <div className="right flex flex-col md:flex-row gap-y-6 md:gap-y-0 md:gap-x-[102px]">
                             {footerMenu.map((menu) => (
                                 <ul key={menu.id}>
@@ -149,4 +146,4 @@ export default function Footer({ languageId }) {
             </div>
         </footer>
     );
-}
+};

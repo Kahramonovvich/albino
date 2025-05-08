@@ -32,8 +32,8 @@ const adData = {
     uz: [
         {
             icon: <CarIcon />,
-            title: 'Bepul yetkazib berish',
-            subTitle: 'Barcha buyurtmalaringiz uchun bepul yetkazib berish'
+            title: 'Tezkor yetkazib berish',
+            subTitle: 'Barcha buyurtmalaringiz uchun Tezkor yetkazib berish'
         },
         {
             icon: <HeadphoneIcon />,
@@ -54,8 +54,8 @@ const adData = {
     ru: [
         {
             icon: <CarIcon />,
-            title: 'Бесплатная доставка',
-            subTitle: 'Бесплатная доставка всех ваших заказов'
+            title: 'Быстрая доставка',
+            subTitle: 'Быстрая доставка всех ваших заказов'
         },
         {
             icon: <HeadphoneIcon />,
