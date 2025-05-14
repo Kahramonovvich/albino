@@ -44,22 +44,22 @@ export default function Footer({ languageId }) {
     const socialMedia = [
         {
             name: 'Instagram',
-            href: 'https://www.instagram.com/vicalina.uz/',
+            href: 'https://www.instagram.com/albino_uz/',
             icon: <FaInstagram />
         },
         {
             name: 'Telegram',
-            href: 'https://t.me/VicalinaOfficial',
+            href: 'https://t.me/bestalbinouz',
             icon: <FaTelegramPlane />
         },
         {
             name: 'YouTube',
-            href: 'https://www.youtube.com/@Vicalina_2009',
+            href: 'https://www.youtube.com/@albino_uz',
             icon: <FaYoutube />
         },
         {
             name: 'TikTok',
-            href: 'https://www.tiktok.com/@vicalina.uz',
+            href: 'https://www.tiktok.com/@albino_uz4',
             icon: <FaTiktok />
         },
     ];

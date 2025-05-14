@@ -9,25 +9,25 @@ const address = [
         name: 'Toshkent',
         icon1: <Vector />,
         icon2: <ShareIcon />,
-        address: 'Namangan vil, Kosonsoy 34-A uy'
+        address: 'Toshkent viloyati, Zangiota tumani, Iqbol MFY, Txay ko`chasi 112-uy'
     },
     {
         name: 'Andijon',
         icon1: <Vector />,
         icon2: <ShareIcon />,
-        address: 'Namangan vil, Kosonsoy 34-A uy'
+        address: 'Andijon viloyati, Andijon shahar, Yorboshi MFY, Nayman ko`chasi, 30-uy'
     },
     {
         name: 'Farg’ona',
         icon1: <Vector />,
         icon2: <ShareIcon />,
-        address: 'Namangan vil, Kosonsoy 34-A uy'
+        address: 'Farg`ona viloyati, Qo`qon shaxri'
     },
     {
         name: 'Samarqand',
         icon1: <Vector />,
         icon2: <ShareIcon />,
-        address: 'Namangan vil, Kosonsoy 34-A uy'
+        address: 'Samarqand viloyati, Urgut tumani, Mergancha MFY, Mergancha ko`chasi, 7-uy'
     },
 ];
 
@@ -46,10 +46,10 @@ export default function Map({ languageId }) {
                                     <p className="text-customRed text-2xl">
                                         <span className="font-medium">Albino,</span> {item.name}
                                     </p>
-                                    <div className="box flex items-center gap-x-1 my-[2px]">
+                                    {/* <div className="box flex items-center gap-x-1 my-[2px]">
                                         <p className="font-medium text-[#0000004F]">5.0</p>
                                         <Rating name="read-only" value={5} readOnly />
-                                    </div>
+                                    </div> */}
                                     <p className="text-xl text-[#00000082]">
                                         {item.address}
                                     </p>
