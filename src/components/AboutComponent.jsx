@@ -1,5 +1,8 @@
 'use client'
+import { Modal } from "@mui/material";
 import Image from "next/image"
+import { useState } from "react";
+import PhoneInTalkRoundedIcon from '@mui/icons-material/PhoneInTalkRounded';
 
 const content = {
     uz: {
@@ -19,8 +22,28 @@ const content = {
 export default function AboutComponent({ languageId }) {
     const lang = languageId === 2 ? content.ru : content.uz;
 
+    const [openNum, setOpenNum] = useState(false);
+
+    const handleCloseNum = () => setOpenNum(false);
+
     return (
         <div className="aboutComponent mt-[50px]">
+            <Modal
+                open={openNum}
+                onClose={handleCloseNum}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <div className="box flex items-center w-3/4 md:w-auto gap-x-5 bg-white p-5 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg">
+                    <PhoneInTalkRoundedIcon />
+                    <a
+                        href="tel:+998555000098"
+                        className='text-lg font-semibold'
+                    >
+                        +998 55 500 00 98
+                    </a>
+                </div>
+            </Modal>
             <div className="container">
                 <div className="box flex flex-col md:flex-row gap-y-8 md:gap-y-0 md:gap-x-14 items-center">
 
@@ -39,7 +62,10 @@ export default function AboutComponent({ languageId }) {
                                 {lang.text}
                             </h3>
                         </div>
-                        <button className="px-8 md:px-10 py-3 md:py-4 bg-customRed rounded-full w-max text-white font-semibold">
+                        <button
+                            className="px-8 md:px-10 py-3 md:py-4 bg-customRed rounded-full w-max text-white font-semibold"
+                            onClick={() => setOpenNum(true)}
+                        >
                             {lang.button}
                         </button>
                     </div>

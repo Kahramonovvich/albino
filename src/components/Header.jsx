@@ -8,6 +8,9 @@ import CarIcon from '@/assets/icons/delivery-truck 1.svg';
 import HeadphoneIcon from '@icons/headphones 1.svg';
 import ShoppingBag from '@icons/shopping-bag.svg';
 import PackageIcon from '@icons/package.svg';
+import { useState } from 'react';
+import { Modal } from '@mui/material';
+import PhoneInTalkRoundedIcon from '@mui/icons-material/PhoneInTalkRounded';
 
 const caruselData = {
     uz: [
@@ -38,7 +41,8 @@ const adData = {
         {
             icon: <HeadphoneIcon />,
             title: 'Mijozlarni qo‘llab-quvvatlash',
-            subTitle: 'Yordam xizmatiga tezkor kirish'
+            subTitle: 'Yordam xizmatiga tezkor kirish',
+            but: true,
         },
         {
             icon: <ShoppingBag />,
@@ -60,7 +64,8 @@ const adData = {
         {
             icon: <HeadphoneIcon />,
             title: 'Поддержка клиентов',
-            subTitle: 'Мгновенный доступ к поддержке'
+            subTitle: 'Мгновенный доступ к поддержке',
+            but: true,
         },
         {
             icon: <ShoppingBag />,
@@ -79,8 +84,28 @@ export default function Header({ languageId }) {
     const carusel = languageId === 2 ? caruselData.ru : caruselData.uz;
     const ad = languageId === 2 ? adData.ru : adData.uz;
 
+    const [openNum, setOpenNum] = useState(false);
+
+    const handleCloseNum = () => setOpenNum(false);
+
     return (
         <div className="header mt-5">
+            <Modal
+                open={openNum}
+                onClose={handleCloseNum}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <div className="box flex items-center w-3/4 md:w-auto gap-x-5 bg-white p-5 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg">
+                    <PhoneInTalkRoundedIcon />
+                    <a
+                        href="tel:+998555000098"
+                        className='text-lg font-semibold'
+                    >
+                        +998 55 500 00 98
+                    </a>
+                </div>
+            </Modal>
             <div className="container">
                 <div className="carusel relative">
                     <Swiper
@@ -118,9 +143,13 @@ export default function Header({ languageId }) {
 
                 <div className="bottom mt-5 md:-mt-[64px] mx-5 md:mx-[52px] relative h-auto md:h-32">
                     {/* DESKTOP */}
-                    <div className="hidden md:flex absolute z-40 w-full rounded-lg px-10 shadow-md bg-white h-full items-center justify-between">
+                    <div className="hidden md:flex absolute gap-x-5 z-40 w-full rounded-lg px-10 shadow-md bg-white h-full items-center justify-between">
                         {ad.map((item) => (
-                            <div className="flex items-center gap-x-4" key={item.title}>
+                            <div
+                                className="flex items-center gap-x-4 cursor-pointer"
+                                key={item.title}
+                                onClick={() => item.but && setOpenNum(true)}
+                            >
                                 <div className="img">{item.icon}</div>
                                 <div className="text">
                                     <p className='font-semibold leading-tight mb-2'>{item.title}</p>
@@ -133,7 +162,11 @@ export default function Header({ languageId }) {
                     {/* MOBILE */}
                     <div className="flex md:hidden z-40 w-full rounded-lg px-4 py-6 shadow-md bg-white flex-col gap-6">
                         {ad.map((item) => (
-                            <div className="flex items-center gap-x-3" key={item.title}>
+                            <div
+                                className="flex items-center gap-x-3"
+                                key={item.title}
+                                onClick={() => item.but && setOpenNum(true)}
+                            >
                                 <div className="img">{item.icon}</div>
                                 <div className="text">
                                     <p className='font-semibold text-base mb-1'>{item.title}</p>

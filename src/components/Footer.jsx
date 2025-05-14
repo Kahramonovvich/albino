@@ -122,7 +122,12 @@ export default function Footer({ languageId }) {
                                 {t.description}
                             </p>
                             <div className="text-white flex flex-wrap items-center gap-x-4 gap-y-2">
-                                {/* Доп инфо, если нужно */}
+                                <a
+                                    href="tel:+998555000098"
+                                    className='text-lg font-semibold'
+                                >
+                                    +998 55 500 00 98
+                                </a>
                             </div>
                         </div>
                         <div className="right flex flex-col md:flex-row gap-y-6 md:gap-y-0 md:gap-x-[102px]">
