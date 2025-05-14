@@ -65,7 +65,7 @@ export default function Map({ languageId }) {
                             </div>
                         ))}
                     </div>
-                    <div className="img relative w-[645px] h-[510px]">
+                    <div className="img relative w-[645px] h-[510px] md:block hidden">
                         <Image
                             fill
                             src={'/images/map.png'}

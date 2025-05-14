@@ -100,15 +100,27 @@ export default function Nav({ languageId }) {
                                 className="flex items-center gap-x-2 text-white bg-customRed py-4 px-6"
                             >
                                 <MenuRoundedIcon />
-                                All Categories
+                                {Number(languageId) === 1 ? 'Kategoriyalar' : 'Категории'}
                                 <ArrowIcon />
                             </button>
-                            <Link href={'/'} className="flex items-center gap-x-1 text-customRed">Home <ArrowIcon /></Link>
-                            <Link href={'/catalog/all-products'} className="flex items-center gap-x-1 text-gray-500">Shop <ArrowIcon /></Link>
-                            <Link href={'/#'} className="flex items-center gap-x-1 text-gray-500">Pages <ArrowIcon /></Link>
-                            <Link href={'/#'} className="flex items-center gap-x-1 text-gray-500">Blog <ArrowIcon /></Link>
-                            <Link href={'/#'} className="flex items-center gap-x-1 text-gray-500">About Us</Link>
-                            <Link href={'/#'} className="flex items-center gap-x-1 text-gray-500">Contact Us</Link>
+                            <Link href={'/'} className="flex items-center gap-x-1 text-customRed">
+                                {Number(languageId) === 1 ? 'Bosh sahifa' : 'Главная'}<ArrowIcon />
+                            </Link>
+                            <Link href={'/catalog/all-products'} className="flex items-center gap-x-1 text-gray-500">
+                                {Number(languageId) === 1 ? 'Mahsulotlar' : 'Продукты'}<ArrowIcon />
+                            </Link>
+                            <Link href={'/#'} className="flex items-center gap-x-1 text-gray-500">
+                                {Number(languageId) === 1 ? 'Sahifalar' : 'Страницы'}<ArrowIcon />
+                            </Link>
+                            <Link href={'/#'} className="flex items-center gap-x-1 text-gray-500">
+                                {Number(languageId) === 1 ? 'Blog' : 'Блог'}<ArrowIcon />
+                            </Link>
+                            <Link href={'/#'} className="flex items-center gap-x-1 text-gray-500">
+                                {Number(languageId) === 1 ? 'Biz haqimizda' : 'О нас'}
+                            </Link>
+                            <Link href={'/#'} className="flex items-center gap-x-1 text-gray-500">
+                                {Number(languageId) === 1 ? 'Aloqa' : 'Контакты'}
+                            </Link>
                         </div>
                         <div className="flex items-center gap-2">
                             <PhoneIcon />
@@ -137,7 +149,7 @@ export default function Nav({ languageId }) {
 
             {/* Mobile menu */}
             {mobileOpen && (
-                <div className="md:hidden bg-white absolute w-full left-0 top-[70px] shadow-md z-40">
+                <div className="md:hidden bg-white absolute w-full left-0 top-[120px] shadow-md z-40">
                     <div className="flex flex-col gap-4 p-4">
                         <Link href={'/'} onClick={() => setMobileOpen(false)} className="text-customRed">Home</Link>
                         <Link href={'/catalog/barcha-mahsulotlar'} onClick={() => setMobileOpen(false)}>Shop</Link>

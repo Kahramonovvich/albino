@@ -14,6 +14,20 @@ export default function Partners() {
                     <Swiper
                         modules={[Autoplay]}
                         slidesPerView={6}
+                        breakpoints={{
+                            0: {
+                                slidesPerView: 2.5,
+                            },
+                            480: {
+                                slidesPerView: 3,
+                            },
+                            768: {
+                                slidesPerView: 4,
+                            },
+                            1024: {
+                                slidesPerView: 6,
+                            }
+                        }}
                         // spaceBetween={10}
                         loop={true}
                         speed={3000}
@@ -26,7 +40,7 @@ export default function Partners() {
                     >
                         {partners.map((item, index) => (
                             <SwiperSlide key={index}>
-                                <div className="flex items-center justify-center h-20">
+                                <div className="flex items-center justify-center md:h-20">
                                     <img src={item.img.src} alt={`Partner ${index + 1}`} className="h-full object-contain" />
                                 </div>
                             </SwiperSlide>
