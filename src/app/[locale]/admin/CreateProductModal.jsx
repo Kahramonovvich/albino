@@ -182,6 +182,9 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
                 const obj = await formDataToObjectWithFiles(formData);
                 localStorage.setItem('uzProduct', JSON.stringify(obj));
 
+                localStorage.setItem('uzNeed', JSON.stringify(true));
+                localStorage.setItem('ruNeed', JSON.stringify(true));
+
                 setLanguageId(2);
                 setForm({
                     ...form,
@@ -202,53 +205,92 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
                 const uzProduct = await JSON.parse(localStorage.getItem('uzProduct'));
                 const ruProduct = await JSON.parse(localStorage.getItem('ruProduct'));
 
+                const uzNeed = await JSON.parse(localStorage.getItem('uzNeed'));
+                const ruNeed = await JSON.parse(localStorage.getItem('ruNeed'));
+
                 const newFormDataUz = new FormData();
 
-                Object.entries(uzProduct).forEach(([key, value]) => {
-                    if (Array.isArray(value) && value[0]?.data && value[0]?.name) {
-                        for (const item of value) {
-                            const file = base64ToFile(item.data, item.name, item.type);
-                            newFormDataUz.append(key, file);
+                if (uzNeed) {
+                    const newFormDataUz = new FormData();
+                    Object.entries(uzProduct).forEach(([key, value]) => {
+                        if (Array.isArray(value) && value[0]?.data && value[0]?.name) {
+                            for (const item of value) {
+                                const file = base64ToFile(item.data, item.name, item.type);
+                                newFormDataUz.append(key, file);
+                            };
+                        } else {
+                            newFormDataUz.append(key, value);
                         };
-                    } else {
-                        newFormDataUz.append(key, value);
+                    });
+
+                    const res1 = await fetch('api/Products/CreateProduct', {
+                        method: 'POST',
+                        body: newFormDataUz,
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+
+                    if (res1.ok) {
+                        localStorage.setItem('uzNeed', JSON.stringify(false));
+                        localStorage.setItem('uzTrue', JSON.stringify(true));
                     };
-                });
+                };
 
-                const newFormDataRu = new FormData();
-
-                Object.entries(ruProduct).forEach(([key, value]) => {
-                    if (Array.isArray(value) && value[0]?.data && value[0]?.name) {
-                        for (const item of value) {
-                            const file = base64ToFile(item.data, item.name, item.type);
-                            newFormDataRu.append(key, file);
+                if (ruNeed) {
+                    const newFormDataRu = new FormData();
+                    Object.entries(ruProduct).forEach(([key, value]) => {
+                        if (Array.isArray(value) && value[0]?.data && value[0]?.name) {
+                            for (const item of value) {
+                                const file = base64ToFile(item.data, item.name, item.type);
+                                newFormDataRu.append(key, file);
+                            };
+                        } else {
+                            newFormDataRu.append(key, value);
                         };
-                    } else {
-                        newFormDataRu.append(key, value);
+                    });
+
+                    const res2 = await fetch('api/Products/CreateProduct', {
+                        method: 'POST',
+                        body: newFormDataRu,
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+
+                    if (res2.ok) {
+                        localStorage.setItem('ruNeed', JSON.stringify(false));
+                        localStorage.setItem('ruTrue', JSON.stringify(true));
                     };
-                });
+                };
 
-                const res1 = await fetch('api/Products/CreateProduct', {
-                    method: 'POST',
-                    body: newFormDataUz,
-                });
+                const uzTrue = await JSON.parse(localStorage.getItem('uzTrue'));
+                const ruTrue = await JSON.parse(localStorage.getItem('ruTrue'));
 
-                const res2 = await fetch('api/Products/CreateProduct', {
-                    method: 'POST',
-                    body: newFormDataRu,
-                });
-
-                if (res1.ok && res2.ok) {
+                if (uzTrue && ruTrue) {
                     alert("Mahsulot qo'shildi");
+                    localStorage.removeItem('ruProduct');
+                    localStorage.removeItem('uzProduct');
+                    localStorage.removeItem('uzNeed');
+                    localStorage.removeItem('ruNeed');
+                    localStorage.removeItem('uzTrue');
+                    localStorage.removeItem('ruTrue');
                     setIsClose(true);
                     router.refresh();
                 } else {
-                    alert('Xatolik');
-                    console.error('Xatolik:', res1 && res2);
+                    if (uzNeed) {
+                        alert(`Xatolik: O'zbek tilida muhsulot qo'shilmadi. Iltimos yaratish tugmasini qayta bosing!`);
+                        console.error(`Xatolik: O'zbek tilida muhsulot qo'shilmadi. Iltimos yaratish tugmasini qayta bosing!`);
+                    };
+
+                    if (ruNeed) {
+                        alert(`Xatolik: Rus tilida muhsulot qo'shilmadi. Iltimos yaratish tugmasini qayta bosing!`);
+                        console.error(`Xatolik: Rus tilida muhsulot qo'shilmadi. Iltimos yaratish tugmasini qayta bosing!`);
+                    };
                 };
             } catch (err) {
                 console.error(err);
-                alert('Xatolik!');
+                alert('Xatolik:', err);
             } finally {
                 setIsLoading(false);
             };
