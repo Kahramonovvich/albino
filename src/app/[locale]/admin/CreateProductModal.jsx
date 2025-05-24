@@ -208,8 +208,6 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
                 const uzNeed = await JSON.parse(localStorage.getItem('uzNeed'));
                 const ruNeed = await JSON.parse(localStorage.getItem('ruNeed'));
 
-                const newFormDataUz = new FormData();
-
                 if (uzNeed) {
                     const newFormDataUz = new FormData();
                     Object.entries(uzProduct).forEach(([key, value]) => {

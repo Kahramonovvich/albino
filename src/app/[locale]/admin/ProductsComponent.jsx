@@ -2,7 +2,6 @@
 import { formatCurrency } from "@/utils/utils"
 import { Pagination } from "@mui/material"
 import Image from "next/image"
-import Link from "next/link"
 import { useState, useMemo } from "react"
 import CreateProductModal from "./CreateProductModal"
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
@@ -56,7 +55,7 @@ export default function ProductsComponent({ products, languageId, token }) {
         } else {
             alert("O‘chirishda xatolik yuz berdi");
             router.refresh();
-        }
+        };
     };
 
     const filteredProducts = useMemo(() => {
