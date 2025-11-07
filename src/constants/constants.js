@@ -9,6 +9,35 @@ import Part8 from '@/assets/images/8.png';
 import Part9 from '@/assets/images/9.png';
 import Part10 from '@/assets/images/10.png';
 import Part11 from '@/assets/images/vicalina.png';
+import Part12 from '@/assets/images/Дизайн без названия (2).png';
+import Part13 from '@/assets/images/Дизайн без названия (3).png';
+import Part15 from '@/assets/images/Дизайн без названия (5).png';
+import Part16 from '@/assets/images/Дизайн без названия (6).png';
+import Part17 from '@/assets/images/Дизайн без названия (7).png';
+import Part18 from '@/assets/images/Дизайн без названия (8).png';
+import Part19 from '@/assets/images/Дизайн без названия (9).png';
+import Part110 from '@/assets/images/Дизайн без названия (10).png';
+import Part111 from '@/assets/images/Дизайн без названия (11).png';
+import Part112 from '@/assets/images/Дизайн без названия (12).png';
+import Part113 from '@/assets/images/Дизайн без названия (13).png';
+import Part114 from '@/assets/images/Дизайн без названия (14).png';
+import Part115 from '@/assets/images/Дизайн без названия (15).png';
+import Part116 from '@/assets/images/Дизайн без названия (16).png';
+import Part117 from '@/assets/images/Дизайн без названия (17).png';
+import Part118 from '@/assets/images/Дизайн без названия (18).png';
+import Part119 from '@/assets/images/Дизайн без названия (19).png';
+import Part120 from '@/assets/images/Дизайн без названия (20).png';
+import Part121 from '@/assets/images/Дизайн без названия (21).png';
+import Part122 from '@/assets/images/Дизайн без названия (22).png';
+import Part124 from '@/assets/images/Дизайн без названия (24).png';
+import Part125 from '@/assets/images/Дизайн без названия (25).png';
+import Part127 from '@/assets/images/Дизайн без названия (27).png';
+import Part128 from '@/assets/images/Дизайн без названия (28).png';
+import Part129 from '@/assets/images/Дизайн без названия (29).png';
+import Part130 from '@/assets/images/Дизайн без названия (30).png';
+import Part131 from '@/assets/images/Дизайн без названия (31).png';
+import Part132 from '@/assets/images/Дизайн без названия (32).png';
+import Part133 from '@/assets/images/Дизайн без названия (33).png';
 
 export const navMenu = [
     {
@@ -109,6 +138,35 @@ export const partners = [
     { img: Part8, name: 'Starlux' },
     { img: Part9, name: 'Mega' },
     { img: Part10, name: 'Nikai' },
+    { img: Part12, name: 'Zumba' },
+    { img: Part13, name: 'Pasabahce' },
+    { img: Part15, name: 'Tefal' },
+    { img: Part16, name: 'Meganur' },
+    { img: Part17, name: 'Diamond Steel' },
+    { img: Part18, name: 'Liqun' },
+    { img: Part19, name: 'Rashko Baba' },
+    { img: Part110, name: 'Retech' },
+    { img: Part111, name: 'Sirus' },
+    { img: Part112, name: 'Veko' },
+    { img: Part113, name: 'LG' },
+    { img: Part114, name: 'Emerald' },
+    { img: Part115, name: 'Golden' },
+    { img: Part116, name: 'Minix' },
+    { img: Part117, name: 'lagmon' },
+    { img: Part118, name: 'Ayuba' },
+    { img: Part119, name: 'tori' },
+    { img: Part120, name: 'new brand' },
+    { img: Part121, name: 'corona' },
+    { img: Part122, name: 'nurgaz' },
+    { img: Part124, name: 'promsiz' },
+    { img: Part125, name: 'toup' },
+    { img: Part127, name: 'hadiiy' },
+    { img: Part128, name: 'daydays' },
+    { img: Part129, name: 'rose' },
+    { img: Part130, name: 'sim' },
+    { img: Part131, name: 'vinzer' },
+    { img: Part132, name: 'itimat' },
+    { img: Part133, name: 'kangda' },
 ];
 
 export const comments = [
