@@ -12,7 +12,7 @@ import ToBasket from "./ToBasket";
 
 export default function TopProducts({ products, languageId }) {
 
-    const [activeProductBrand, setActiveProductBrandBrand] = useState('Vicalina');
+    const [activeProductBrand, setActiveProductBrandBrand] = useState('albino');
 
     const selectedProducts = products?.filter((item) => item?.shortDescription?.toLocaleLowerCase() === activeProductBrand?.toLocaleLowerCase());
 

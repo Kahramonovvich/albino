@@ -18,16 +18,40 @@ const caruselData = {
             id: 1,
             title: 'Uy va oshxonangiz uchun kerakli barcha mahsulotlar',
             subTitle: 'Yuqori sifat, hamyonbop narx',
-            img: '/images/carusel.png'
-        }
+            img: '/images/korusel2.webp'
+        },
+        {
+            id: 2,
+            title: 'Uy va oshxonangiz uchun kerakli barcha mahsulotlar',
+            subTitle: 'Yuqori sifat, hamyonbop narx',
+            img: '/images/korusel3.webp'
+        },
+        {
+            id: 3,
+            title: 'Uy va oshxonangiz uchun kerakli barcha mahsulotlar',
+            subTitle: 'Yuqori sifat, hamyonbop narx',
+            img: '/images/korusel.webp'
+        },
     ],
     ru: [
         {
             id: 1,
             title: 'Все необходимые товары для вашего дома и кухни',
             subTitle: 'Высокое качество, доступная цена',
-            img: '/images/carusel.png'
-        }
+            img: '/images/korusel2.webp'
+        },
+        {
+            id: 2,
+            title: 'Все необходимые товары для вашего дома и кухни',
+            subTitle: 'Высокое качество, доступная цена',
+            img: '/images/korusel3.webp'
+        },
+        {
+            id: 3,
+            title: 'Все необходимые товары для вашего дома и кухни',
+            subTitle: 'Высокое качество, доступная цена',
+            img: '/images/korusel.webp'
+        },
     ]
 };
 
@@ -107,16 +131,16 @@ export default function Header({ languageId }) {
                 </div>
             </Modal>
             <div className="container">
-                <div className="carusel relative">
+                <div className="relative">
                     <Swiper
                         spaceBetween={50}
                         loop={true}
                         autoplay={{
-                            delay: 2500,
+                            delay: 5000,
                             pauseOnMouseEnter: true
                         }}
                         modules={[Autoplay]}
-                        className="w-full h-[300px] md:h-[800px]"
+                        className="w-full aspect-[2.75/1]"
                     >
                         {carusel.map((item) => (
                             <SwiperSlide key={item.id}>
@@ -124,18 +148,10 @@ export default function Header({ languageId }) {
                                     fill
                                     alt={item.title}
                                     src={item.img}
-                                    className="object-cover"
+                                    className='rounded-2xl'
+                                    style={{ objectFit: "cover" }}
+                                    unoptimized
                                 />
-                                <div className="box flex items-center justify-center w-full">
-                                    <div className="absolute top-20 md:top-48 z-30 w-10/12 text-center">
-                                        <h1 className="font-semibold text-2xl md:text-7xl leading-tight mb-4 md:mb-[30px]">
-                                            {item.title}
-                                        </h1>
-                                        <h2 className="text-lg md:text-[32px] leading-tight mb-3">
-                                            {item.subTitle}
-                                        </h2>
-                                    </div>
-                                </div>
                             </SwiperSlide>
                         ))}
                     </Swiper>

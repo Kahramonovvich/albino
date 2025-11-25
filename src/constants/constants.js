@@ -38,6 +38,8 @@ import Part130 from '@/assets/images/Дизайн без названия (30).p
 import Part131 from '@/assets/images/Дизайн без названия (31).png';
 import Part132 from '@/assets/images/Дизайн без названия (32).png';
 import Part133 from '@/assets/images/Дизайн без названия (33).png';
+import Part134 from '@/assets/images/beltop logo.png';
+import Part135 from '@/assets/images/logo.png';
 
 export const navMenu = [
     {
@@ -127,46 +129,72 @@ export const navMenu = [
 ];
 
 export const partners = [
+    { img: Part135, name: 'albino' },
+    { img: Part134, name: 'beltop' },
     { img: Part11, name: 'Vicalina' },
-    { img: Part1, name: 'Kukmara' },
     { img: Part2, name: 'Sonifer' },
+    { img: Part1, name: 'Kukmara' },
     { img: Part3, name: 'Zepter' },
     { img: Part4, name: 'Arshia' },
     { img: Part5, name: 'Uakeen' },
+    { img: Part135, name: 'albino' },
+    { img: Part134, name: 'beltop' },
+    { img: Part11, name: 'Vicalina' },
     { img: Part6, name: 'Bosch' },
     { img: Part7, name: 'Osman' },
     { img: Part8, name: 'Starlux' },
     { img: Part9, name: 'Mega' },
     { img: Part10, name: 'Nikai' },
+    { img: Part135, name: 'albino' },
+    { img: Part134, name: 'beltop' },
+    { img: Part11, name: 'Vicalina' },
     { img: Part12, name: 'Zumba' },
     { img: Part13, name: 'Pasabahce' },
     { img: Part15, name: 'Tefal' },
     { img: Part16, name: 'Meganur' },
     { img: Part17, name: 'Diamond Steel' },
+    { img: Part135, name: 'albino' },
+    { img: Part134, name: 'beltop' },
+    { img: Part11, name: 'Vicalina' },
     { img: Part18, name: 'Liqun' },
     { img: Part19, name: 'Rashko Baba' },
     { img: Part110, name: 'Retech' },
     { img: Part111, name: 'Sirus' },
     { img: Part112, name: 'Veko' },
+    { img: Part135, name: 'albino' },
+    { img: Part134, name: 'beltop' },
+    { img: Part11, name: 'Vicalina' },
     { img: Part113, name: 'LG' },
     { img: Part114, name: 'Emerald' },
     { img: Part115, name: 'Golden' },
     { img: Part116, name: 'Minix' },
     { img: Part117, name: 'lagmon' },
+    { img: Part135, name: 'albino' },
+    { img: Part134, name: 'beltop' },
+    { img: Part11, name: 'Vicalina' },
     { img: Part118, name: 'Ayuba' },
     { img: Part119, name: 'tori' },
     { img: Part120, name: 'new brand' },
     { img: Part121, name: 'corona' },
     { img: Part122, name: 'nurgaz' },
+    { img: Part135, name: 'albino' },
+    { img: Part134, name: 'beltop' },
+    { img: Part11, name: 'Vicalina' },
     { img: Part124, name: 'promsiz' },
     { img: Part125, name: 'toup' },
     { img: Part127, name: 'hadiiy' },
     { img: Part128, name: 'daydays' },
     { img: Part129, name: 'rose' },
+    { img: Part135, name: 'albino' },
+    { img: Part134, name: 'beltop' },
+    { img: Part11, name: 'Vicalina' },
     { img: Part130, name: 'sim' },
     { img: Part131, name: 'vinzer' },
     { img: Part132, name: 'itimat' },
     { img: Part133, name: 'kangda' },
+    { img: Part135, name: 'albino' },
+    { img: Part134, name: 'beltop' },
+    { img: Part11, name: 'Vicalina' },
 ];
 
 export const comments = [

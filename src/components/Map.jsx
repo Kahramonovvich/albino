@@ -29,6 +29,12 @@ const address = [
         icon2: <ShareIcon />,
         address: 'Samarqand viloyati, Urgut tumani, Mergancha MFY, Mergancha ko`chasi, 7-uy'
     },
+    {
+        name: 'Xorazm',
+        icon1: <Vector />,
+        icon2: <ShareIcon />,
+        address: 'Xorazm viloyati, Urganch shaxari, Yangi moshina bozor'
+    },
 ];
 
 export default function Map({ languageId }) {
