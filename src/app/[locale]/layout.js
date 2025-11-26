@@ -33,7 +33,7 @@ export default async function RootLayout({ children, params }) {
           height={3}
           showSpinner={false}
         />
-        <TopBanner languageId={languageId} />
+        {/* <TopBanner languageId={languageId} /> */}
         <BasketProvider>
           <Nav languageId={languageId} />
           {children}

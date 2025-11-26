@@ -2,7 +2,6 @@
 import Image from "next/image";
 import Vector from '@icons/Vector.svg'
 import ShareIcon from '@icons/ri_share-line.svg'
-import { Rating } from "@mui/material";
 
 const address = [
     {
@@ -34,6 +33,12 @@ const address = [
         icon1: <Vector />,
         icon2: <ShareIcon />,
         address: 'Xorazm viloyati, Urganch shaxari, Yangi moshina bozor'
+    },
+    {
+        name: 'Buxoro',
+        icon1: <Vector />,
+        icon2: <ShareIcon />,
+        address: 'Buxoro viloyati, Buxoro shaxari, Vobkent ko`chasi'
     },
 ];
 
