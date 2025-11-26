@@ -21,7 +21,15 @@ export default async function Products({ params, searchParams }) {
     const resProducts = await fetch(`${BASE_URL}/api/Products/GetAllProducts?languageId=${languageId}`, {
         next: { tags: ['products'] }
     });
-    const allProducts = await resProducts.json();
+    const text = await resProducts.text();
+    let allProducts;
+
+    try {
+        allProducts = JSON.parse(text);
+    } catch (e) {
+        console.error('Ошибка парсинга JSON:', text);
+        allProducts = [];
+    };
 
     let categoryProducts = [];
     let selectedCategory = Number(languageId) === 1 ? catFilter?.name : catFilter?.nameRu;
